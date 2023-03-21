@@ -25,7 +25,7 @@ import {
  * Page meta data
  */
 export const homePageMeta: HomepageMeta = {
-  title: 'React Resume Template',
+  title: 'Jussi Resume',
   description: "Example site built with Tim Baker's react resume template",
 };
 
@@ -172,57 +172,57 @@ export const portfolioItems: PortfolioItem[] = [
   {
     title: 'Project title 1',
     description: 'Give a short description of your project here.',
-    url: 'https://timbaker.me',
+    url: 'https://jussilemmetyinen.me',
   },
   {
     title: 'Project title 2',
     description: 'Give a short description of your project here.',
-    url: 'https://timbaker.me',
+    url: 'https://jussilemmetyinen.me',
   },
   {
     title: 'Project title 3',
     description: 'Give a short description of your project here.',
-    url: 'https://timbaker.me',
+    url: 'https://jussilemmetyinen.me',
   },
   {
     title: 'Project title 4',
     description: 'Give a short description of your project here.',
-    url: 'https://timbaker.me',
+    url: 'https://jussilemmetyinen.me',
   },
   {
     title: 'Project title 5',
     description: 'Give a short description of your project here.',
-    url: 'https://timbaker.me',
+    url: 'https://jussilemmetyinen.me',
   },
   {
     title: 'Project title 6',
     description: 'Give a short description of your project here.',
-    url: 'https://timbaker.me',
+    url: 'https://jussilemmetyinen.me',
   },
   {
     title: 'Project title 7',
     description: 'Give a short description of your project here.',
-    url: 'https://timbaker.me',
+    url: 'https://jussilemmetyinen.me',
   },
   {
     title: 'Project title 8',
     description: 'Give a short description of your project here.',
-    url: 'https://timbaker.me',
+    url: 'https://jussilemmetyinen.me',
   },
   {
     title: 'Project title 9',
     description: 'Give a short description of your project here.',
-    url: 'https://timbaker.me',
+    url: 'https://jussilemmetyinen.me',
   },
   {
     title: 'Project title 10',
     description: 'Give a short description of your project here.',
-    url: 'https://timbaker.me',
+    url: 'https://jussilemmetyinen.me',
   },
   {
     title: 'Project title 11',
     description: 'Give a short description of your project here.',
-    url: 'https://timbaker.me',
+    url: 'https://jussilemmetyinen.me',
   },
   ];
 
@@ -304,7 +304,7 @@ export const experience: TimelineItem[] = [
   {
     date: '2019-08 - 2022-07',
     location: 'Siili Solutions Oyj',
-    title: 'JuniorConsultant',
+    title: 'Junior Consultant',
     content: (
             <p>
               Describe work, special projects, notable achievements, what technologies you have been working with, and
@@ -365,7 +365,6 @@ export const contact: ContactSection = {
     {
       type: ContactType.Location,
       text: 'Helsinki, Finland',
-      href: 'https://www.google.ca/maps/place/Victoria,+BC/@48.4262362,-123.376775,14z',
     },
     {
       type: ContactType.Github,
