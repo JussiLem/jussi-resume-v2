@@ -1,6 +1,16 @@
 {
   "dependencies": [
     {
+      "name": "@tailwindcss/forms",
+      "version": "0.5.3",
+      "type": "build"
+    },
+    {
+      "name": "@tailwindcss/typography",
+      "version": "0.5.9",
+      "type": "build"
+    },
+    {
       "name": "@types/node",
       "version": "^12",
       "type": "build"
@@ -14,8 +24,17 @@
       "type": "build"
     },
     {
+      "name": "cssnano",
+      "version": "5.1.15",
+      "type": "build"
+    },
+    {
       "name": "npm-check-updates",
       "version": "^16",
+      "type": "build"
+    },
+    {
+      "name": "prettier",
       "type": "build"
     },
     {
@@ -31,7 +50,17 @@
       "type": "build"
     },
     {
+      "name": "@headlessui/react",
+      "version": "1.7.5, @heroicons/react@^1.0.6",
+      "type": "runtime"
+    },
+    {
       "name": "autoprefixer",
+      "type": "runtime"
+    },
+    {
+      "name": "classnames",
+      "version": "2.3.2",
       "type": "runtime"
     },
     {
@@ -52,6 +81,11 @@
     },
     {
       "name": "tailwindcss",
+      "type": "runtime"
+    },
+    {
+      "name": "ts-pattern",
+      "version": "^4.0.3",
       "type": "runtime"
     }
   ],
