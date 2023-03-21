@@ -24,7 +24,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "stripInternal": true,
-    "target": "es5",
+    "target": "esnext",
     "moduleResolution": "node",
     "isolatedModules": true,
     "jsx": "preserve",
@@ -32,14 +32,17 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "incremental": true
+    "incremental": true,
+    "rootDir": "src"
   },
   "include": [
     ".projenrc.js",
     "pages/**/*.ts",
     "test/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "pages/**/*.tsx",
+    "src/**/*.ts",
+    "pages/**/*",
+    "src/**/*.ts",
     ".projenrc.ts",
     "projenrc/**/*.ts"
   ],

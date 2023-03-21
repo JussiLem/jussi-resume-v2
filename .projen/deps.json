@@ -24,13 +24,18 @@
       "type": "build"
     },
     {
-      "name": "cssnano",
-      "version": "5.1.15",
+      "name": "npm-check-updates",
+      "version": "^16",
       "type": "build"
     },
     {
-      "name": "npm-check-updates",
-      "version": "^16",
+      "name": "postcss-preset-env",
+      "version": "8.0.1",
+      "type": "build"
+    },
+    {
+      "name": "postcss",
+      "version": "8.4.21",
       "type": "build"
     },
     {
@@ -39,6 +44,11 @@
     },
     {
       "name": "projen",
+      "type": "build"
+    },
+    {
+      "name": "sass",
+      "version": "1.59.3",
       "type": "build"
     },
     {
@@ -51,11 +61,17 @@
     },
     {
       "name": "@headlessui/react",
-      "version": "1.7.5, @heroicons/react@^1.0.6",
+      "version": "1.7.13",
+      "type": "runtime"
+    },
+    {
+      "name": "@heroicons/react",
+      "version": "^1.0.6",
       "type": "runtime"
     },
     {
       "name": "autoprefixer",
+      "version": "10.4.14",
       "type": "runtime"
     },
     {
@@ -68,19 +84,11 @@
       "type": "runtime"
     },
     {
-      "name": "postcss",
-      "type": "runtime"
-    },
-    {
       "name": "react",
       "type": "runtime"
     },
     {
       "name": "react-dom",
-      "type": "runtime"
-    },
-    {
-      "name": "tailwindcss",
       "type": "runtime"
     },
     {
