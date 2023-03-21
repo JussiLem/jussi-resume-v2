@@ -49,18 +49,17 @@ export type SectionId = typeof SectionId[keyof typeof SectionId];
 * Hero section
 */
 export const heroData: Hero = {
-  name: `I'm Tim Baker.`,
+  name: `I'm Jussi Lemmetyinen`,
   description: (
           <>
           <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
-            I'm a Victoria based <strong className="text-stone-100">Full Stack Software Engineer</strong>, currently working
-            at <strong className="text-stone-100">Instant Domains</strong> helping build a modern, mobile-first, domain
-            registrar and site builder.
+            I'm a Helsinki based <strong className="text-stone-100">Solution Architect</strong>, currently working
+            at <strong className="text-stone-100">Gofore Oyj</strong> helping microservice and event-driven architectures with hands-on attitude.
           </p>
           <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
-            In my free time time, you can catch me training in <strong className="text-stone-100">Muay Thai</strong>,
-            plucking my <strong className="text-stone-100">banjo</strong>, or exploring beautiful{' '}
-            <strong className="text-stone-100">Vancouver Island</strong>.
+            In my free time time, you can catch me listening and playing music, drinking craft beer
+            and exploring <strong className="text-stone-100">new cultures</strong>, or just{' '}
+            <strong className="text-stone-100">Finland</strong>.
           </p>
           </>
           ),
@@ -87,12 +86,12 @@ export const aboutData: About = {
   to use or feel most comfortable with, describing your personality, or whatever else you feel like throwing
   in.`,
   aboutItems: [
-    {label: 'Location', text: 'Victoria, BC', Icon: MapIcon},
-    {label: 'Age', text: '29', Icon: CalendarIcon},
-    {label: 'Nationality', text: 'Canadian / Irish', Icon: FlagIcon},
-    {label: 'Interests', text: 'Motorcycles, Muay Thai, Banjos', Icon: SparklesIcon},
-    {label: 'Study', text: 'University of Victoria', Icon: AcademicCapIcon},
-    {label: 'Employment', text: 'Instant Domains, inc.', Icon: OfficeBuildingIcon},
+    {label: 'Location', text: 'Helsinki, Finland', Icon: MapIcon},
+    {label: 'Age', text: '36', Icon: CalendarIcon},
+    {label: 'Nationality', text: 'Finnish', Icon: FlagIcon},
+    {label: 'Interests', text: 'Music, Craft beers, Wines', Icon: SparklesIcon},
+    {label: 'Study', text: 'Haaga-Helia University of Applied Sciences', Icon: AcademicCapIcon},
+    {label: 'Employment', text: 'Gofore Oyj', Icon: OfficeBuildingIcon},
     ],
 };
 
@@ -333,5 +332,5 @@ export const contact: ContactSection = {
 * Social items
 */
 export const socialLinks: Social[] = [
-  {label: 'Github', Icon: GithubIcon, href: 'https://github.com/tbakerx'},
+  {label: 'Github', Icon: GithubIcon, href: 'https://github.com/JussiLem'},
   ];
