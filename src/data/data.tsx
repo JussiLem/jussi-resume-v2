@@ -103,16 +103,12 @@ export const skills: SkillGroup[] = [
     name: 'Spoken languages',
     skills: [
       {
-        name: 'English',
+        name: 'Finnish',
         level: 10,
       },
       {
-        name: 'French',
-        level: 4,
-      },
-      {
-        name: 'Spanish',
-        level: 3,
+        name: 'English',
+        level: 9,
       },
       ],
   },
@@ -273,9 +269,9 @@ export const education: TimelineItem[] = [
 
 export const experience: TimelineItem[] = [
   {
-    date: 'March 2010 - Present',
-    location: 'Awesome Development Company',
-    title: 'Senior UX Engineer',
+    date: '2023-04 - Present',
+    location: 'Gofore Oyj',
+    title: 'Solutions Architect',
     content: (
             <p>
               Describe work, special projects, notable achievements, what technologies you have been working with, and
@@ -284,9 +280,42 @@ export const experience: TimelineItem[] = [
             ),
   },
   {
-    date: 'March 2007 - February 2010',
-    location: 'Garage Startup Studio',
-    title: 'Junior bug fixer',
+    date: '2022-02 - 2023-03',
+    location: 'Fintraffic Oy',
+    title: 'Solutions Architect',
+    content: (
+            <p>
+              Describe work, special projects, notable achievements, what technologies you have been working with, and
+              anything else that would be useful for an employer to know.
+            </p>
+            ),
+  },
+  {
+    date: '2021-07 - 2022-01',
+    location: 'Siili Solutions Oyj',
+    title: 'Consultant',
+    content: (
+            <p>
+              Describe work, special projects, notable achievements, what technologies you have been working with, and
+              anything else that would be useful for an employer to know.
+            </p>
+            ),
+  },
+  {
+    date: '2019-08 - 2022-07',
+    location: 'Siili Solutions Oyj',
+    title: 'JuniorConsultant',
+    content: (
+            <p>
+              Describe work, special projects, notable achievements, what technologies you have been working with, and
+              anything else that would be useful for an employer to know.
+            </p>
+            ),
+  },
+  {
+    date: '2018-05 - 2019-07',
+    location: 'Svea Ekonomi Oy',
+    title: 'Software Developer',
     content: (
             <p>
               Describe work, special projects, notable achievements, what technologies you have been working with, and
@@ -330,23 +359,18 @@ export const contact: ContactSection = {
   items: [
     {
       type: ContactType.Email,
-      text: 'reachout@timbaker.me',
-      href: 'mailto:reachout@timbaker.me',
+      text: 'jussi.lem@gmail.com',
+      href: 'mailto:jussi.lem@gmail.com',
     },
     {
       type: ContactType.Location,
-      text: 'Victoria BC, Canada',
+      text: 'Helsinki, Finland',
       href: 'https://www.google.ca/maps/place/Victoria,+BC/@48.4262362,-123.376775,14z',
     },
     {
-      type: ContactType.Instagram,
-      text: '@tbakerx',
-      href: 'https://www.instagram.com/tbakerx/',
-    },
-    {
       type: ContactType.Github,
-      text: 'tbakerx',
-      href: 'https://github.com/tbakerx',
+      text: 'JussiLem',
+      href: 'https://github.com/JussiLem',
     },
     ],
 };
