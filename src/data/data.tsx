@@ -248,6 +248,29 @@ export const education: TimelineItem[] = [
   },
   ];
 
+  export const certifications: TimelineItem[] = [
+    {
+      date: '2021-09',
+      title: 'AWS Certified Security - Speciality',
+    },
+    {
+      date: '2021-08',
+      title: 'AWS Certified Developer - Associate',
+    },
+    {
+      date: '2021-06',
+      title: 'AWS Certified SysOps Adminstrator - Associate',
+    },
+    {
+      date: '2020-08',
+      title: 'AWS Certified Solutions Architect - Associate',
+    },
+    {
+      date: '2019-08',
+      title: 'Professional Scrum Master(PSM 1)',
+    },
+    ];
+
 export const experience: TimelineItem[] = [
   {
     date: 'March 2010 - Present',
