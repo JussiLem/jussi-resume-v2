@@ -73,9 +73,26 @@ project.eslint?.addExtends('plugin:@next/next/recommended');
 project.eslint?.addOverride({
   files: ['src', 'pages'],
   rules: {
+    ['import/first']: 'error',
+    ['import/newline-after-import']: 'error',
+    ['import/no-duplicates']: 'error',
+    ['import/order']: 'error',
     ['react-memo/require-usememo']: 'error',
     ['react-memo/require-memo']: 'error',
     ['react-hooks/exhaustive-deps']: 'error',
+    ['react/jsx-no-duplicate-props']: 'error',
+    ['react/sort-props']: 'error',
+    ['react/react-in-jsx-scope']: 'off',
+    ['simple-import-sort/exports']: 'error',
+    ['simple-import-sort/imports']: 'error',
+    ['sort-imports']: 'off',
+    ['@typescript-eslint/member-ordering']: [
+      'warn',
+      {
+        interfaces: ['signature', 'method', 'constructor', 'field'],
+        typeLiterals: ['signature', 'method', 'constructor', 'field'],
+      },
+    ],
   },
 });
 project.synth();
