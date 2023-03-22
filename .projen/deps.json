@@ -1,6 +1,10 @@
 {
   "dependencies": [
     {
+      "name": "@next/eslint-plugin-next",
+      "type": "build"
+    },
+    {
       "name": "@tailwindcss/forms",
       "version": "0.5.3",
       "type": "build"
@@ -21,6 +25,69 @@
     },
     {
       "name": "@types/react-dom",
+      "type": "build"
+    },
+    {
+      "name": "@typescript-eslint/eslint-plugin",
+      "version": "^5",
+      "type": "build"
+    },
+    {
+      "name": "@typescript-eslint/parser",
+      "version": "^5",
+      "type": "build"
+    },
+    {
+      "name": "eslint-config-prettier",
+      "type": "build"
+    },
+    {
+      "name": "eslint-import-resolver-node",
+      "type": "build"
+    },
+    {
+      "name": "eslint-import-resolver-typescript",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-import",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-jsx-a11y",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-prettier",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-react",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-react-hooks",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-react-memo",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-simple-import-sort",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-sort-keys-fix",
+      "type": "build"
+    },
+    {
+      "name": "eslint",
+      "version": "^8",
+      "type": "build"
+    },
+    {
+      "name": "json-schema",
       "type": "build"
     },
     {
@@ -49,6 +116,10 @@
     {
       "name": "sass",
       "version": "1.59.3",
+      "type": "build"
+    },
+    {
+      "name": "tailwindcss",
       "type": "build"
     },
     {

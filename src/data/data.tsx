@@ -7,7 +7,6 @@ import {
   OfficeBuildingIcon,
   SparklesIcon,
 } from '@heroicons/react/outline';
-import GithubIcon from '../components/Icon/GithubIcon';
 import {
   About,
   ContactSection,
@@ -20,6 +19,7 @@ import {
   TestimonialSection,
   TimelineItem,
 } from './dataDef';
+import GithubIcon from '../components/Icon/GithubIcon';
 
 /**
  * Page meta data
@@ -30,8 +30,8 @@ export const homePageMeta: HomepageMeta = {
 };
 
 /**
-* Section definition
-*/
+ * Section definition
+ */
 export const SectionId = {
   Hero: 'hero',
   About: 'about',
@@ -43,26 +43,27 @@ export const SectionId = {
   Testimonials: 'testimonials',
 } as const;
 
-export type SectionId = typeof SectionId[keyof typeof SectionId];
+export type SectionId = (typeof SectionId)[keyof typeof SectionId];
 
 /**
-* Hero section
-*/
+ * Hero section
+ */
 export const heroData: Hero = {
   name: `I'm Jussi Lemmetyinen`,
   description: (
-          <>
-          <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
-            I'm a Helsinki based <strong className="text-stone-100">Solution Architect</strong>, currently working
-            at <strong className="text-stone-100">Gofore Oyj</strong> helping microservice and event-driven architectures with hands-on attitude.
-          </p>
-          <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
-            In my free time time, you can catch me listening and playing music, drinking craft beer
-            and exploring <strong className="text-stone-100">new cultures</strong>, or just{' '}
-            <strong className="text-stone-100">Finland</strong>.
-          </p>
-          </>
-          ),
+    <>
+      <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
+        I'm a Helsinki based <strong className="text-stone-100">Solution Architect</strong>, currently working at{' '}
+        <strong className="text-stone-100">Gofore Oyj</strong> helping microservice and event-driven architectures with
+        hands-on attitude.
+      </p>
+      <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
+        In my free time time, you can catch me listening and playing music, drinking craft beer and exploring{' '}
+        <strong className="text-stone-100">new cultures</strong>, or just{' '}
+        <strong className="text-stone-100">Finland</strong>.
+      </p>
+    </>
+  ),
   actions: [
     {
       href: '/assets/resume.pdf',
@@ -75,29 +76,29 @@ export const heroData: Hero = {
       text: 'Contact',
       primary: false,
     },
-    ],
+  ],
 };
 
 /**
-* About section
-*/
+ * About section
+ */
 export const aboutData: About = {
   description: `Use this bio section as your way of describing yourself and saying what you do, what technologies you like
   to use or feel most comfortable with, describing your personality, or whatever else you feel like throwing
   in.`,
   aboutItems: [
-    {label: 'Location', text: 'Helsinki, Finland', Icon: MapIcon},
-    {label: 'Age', text: '36', Icon: CalendarIcon},
-    {label: 'Nationality', text: 'Finnish', Icon: FlagIcon},
-    {label: 'Interests', text: 'Music, Craft beers, Wines', Icon: SparklesIcon},
-    {label: 'Study', text: 'Haaga-Helia University of Applied Sciences', Icon: AcademicCapIcon},
-    {label: 'Employment', text: 'Gofore Oyj', Icon: OfficeBuildingIcon},
-    ],
+    { label: 'Location', text: 'Helsinki, Finland', Icon: MapIcon },
+    { label: 'Age', text: '36', Icon: CalendarIcon },
+    { label: 'Nationality', text: 'Finnish', Icon: FlagIcon },
+    { label: 'Interests', text: 'Music, Craft beers, Wines', Icon: SparklesIcon },
+    { label: 'Study', text: 'Haaga-Helia University of Applied Sciences', Icon: AcademicCapIcon },
+    { label: 'Employment', text: 'Gofore Oyj', Icon: OfficeBuildingIcon },
+  ],
 };
 
 /**
-* Skills section
-*/
+ * Skills section
+ */
 export const skills: SkillGroup[] = [
   {
     name: 'Spoken languages',
@@ -110,7 +111,7 @@ export const skills: SkillGroup[] = [
         name: 'English',
         level: 9,
       },
-      ],
+    ],
   },
   {
     name: 'Frontend development',
@@ -127,7 +128,7 @@ export const skills: SkillGroup[] = [
         name: 'GraphQL',
         level: 6,
       },
-      ],
+    ],
   },
   {
     name: 'Backend development',
@@ -144,7 +145,7 @@ export const skills: SkillGroup[] = [
         name: 'Golang',
         level: 4,
       },
-      ],
+    ],
   },
   {
     name: 'Mobile development',
@@ -161,13 +162,13 @@ export const skills: SkillGroup[] = [
         name: 'Swift',
         level: 3,
       },
-      ],
+    ],
   },
-  ];
+];
 
 /**
-* Portfolio section
-*/
+ * Portfolio section
+ */
 export const portfolioItems: PortfolioItem[] = [
   {
     title: 'Project title 1',
@@ -224,11 +225,11 @@ export const portfolioItems: PortfolioItem[] = [
     description: 'Give a short description of your project here.',
     url: 'https://jussilemmetyinen.me',
   },
-  ];
+];
 
 /**
-* Resume section -- TODO: Standardize resume contact format or offer MDX
-*/
+ * Resume section -- TODO: Standardize resume contact format or offer MDX
+ */
 export const education: TimelineItem[] = [
   {
     date: 'April 2007',
@@ -242,92 +243,96 @@ export const education: TimelineItem[] = [
     title: 'What did you study 101',
     content: <p>Describe your experience at school, what you learned, what useful skills you have acquired etc.</p>,
   },
-  ];
+];
 
-  export const certifications: TimelineItem[] = [
-    {
-      date: '2021-09',
-      title: 'AWS Certified Security - Speciality',
-    },
-    {
-      date: '2021-08',
-      title: 'AWS Certified Developer - Associate',
-    },
-    {
-      date: '2021-06',
-      title: 'AWS Certified SysOps Adminstrator - Associate',
-    },
-    {
-      date: '2020-08',
-      title: 'AWS Certified Solutions Architect - Associate',
-    },
-    {
-      date: '2019-08',
-      title: 'Professional Scrum Master(PSM 1)',
-    },
-    ];
+export const certifications: TimelineItem[] = [
+  {
+    date: '2021-09',
+    title: 'AWS Certified Security - Speciality',
+  },
+  {
+    date: '2021-08',
+    title: 'AWS Certified Developer - Associate',
+  },
+  {
+    date: '2021-06',
+    title: 'AWS Certified SysOps Adminstrator - Associate',
+  },
+  {
+    date: '2020-08',
+    title: 'AWS Certified Solutions Architect - Associate',
+  },
+  {
+    date: '2019-08',
+    title: 'Professional Scrum Master(PSM 1)',
+  },
+];
 
 export const experience: TimelineItem[] = [
   {
-    date: '2023-04 - Present',
+    date: '2023-04',
     location: 'Gofore Oyj',
     title: 'Solutions Architect',
     content: (
-            <p>
-              Describe work, special projects, notable achievements, what technologies you have been working with, and
-              anything else that would be useful for an employer to know.
-            </p>
-            ),
+      <p>
+        Describe work, special projects, notable achievements, what technologies you have been working with, and
+        anything else that would be useful for an employer to know.
+      </p>
+    ),
   },
   {
-    date: '2022-02 - 2023-03',
+    date: '2022-02',
+    endDate: '2023-03',
     location: 'Fintraffic Oy',
     title: 'Solutions Architect',
     content: (
-            <p>
-              Describe work, special projects, notable achievements, what technologies you have been working with, and
-              anything else that would be useful for an employer to know.
-            </p>
-            ),
+      <p>
+        Describe work, special projects, notable achievements, what technologies you have been working with, and
+        anything else that would be useful for an employer to know.
+      </p>
+    ),
   },
   {
-    date: '2021-07 - 2022-01',
+    date: '2021-07',
+    endDate: '2022-01',
     location: 'Siili Solutions Oyj',
     title: 'Consultant',
     content: (
-            <p>
-              Describe work, special projects, notable achievements, what technologies you have been working with, and
-              anything else that would be useful for an employer to know.
-            </p>
-            ),
+      <p>
+        Describe work, special projects, notable achievements, what technologies you have been working with, and
+        anything else that would be useful for an employer to know.
+      </p>
+    ),
   },
   {
-    date: '2019-08 - 2022-07',
+    date: '2019-08',
+    endDate: '2021-07',
     location: 'Siili Solutions Oyj',
     title: 'Junior Consultant',
     content: (
-            <p>
-              Describe work, special projects, notable achievements, what technologies you have been working with, and
-              anything else that would be useful for an employer to know.
-            </p>
-            ),
+      <p>
+        Describe work, special projects, notable achievements, what technologies you have been working with, and
+        anything else that would be useful for an employer to know.
+      </p>
+    ),
   },
   {
-    date: '2018-05 - 2019-07',
+    date: '2018-05',
+    endDate: '2019-07',
     location: 'Svea Ekonomi Oy',
     title: 'Software Developer',
     content: (
-            <p>
-              Describe work, special projects, notable achievements, what technologies you have been working with, and
-              anything else that would be useful for an employer to know.
-            </p>
-            ),
+      <p>
+        Describe work, special projects, notable achievements, what technologies you have been working with, and
+        anything else that would be useful for an employer to know.
+      </p>
+    ),
   },
-  ];
+];
 
 /**
-* Testimonial section
-*/
+ * Testimonial section
+ */
 export const testimonial: TestimonialSection = {
   imageSrc: 'testimonialImage',
   testimonials: [
@@ -346,12 +351,12 @@ export const testimonial: TestimonialSection = {
       text: 'Add several of these, and keep them as fresh as possible, but be sure to focus on quality testimonials with strong highlights of your skills/work ethic.',
       image: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/69.jpg',
     },
-    ],
+  ],
 };
 
 /**
-* Contact section
-*/
+ * Contact section
+ */
 
 export const contact: ContactSection = {
   headerText: 'Get in touch.',
@@ -371,12 +376,10 @@ export const contact: ContactSection = {
       text: 'JussiLem',
       href: 'https://github.com/JussiLem',
     },
-    ],
+  ],
 };
 
 /**
-* Social items
-*/
-export const socialLinks: Social[] = [
-  {label: 'Github', Icon: GithubIcon, href: 'https://github.com/JussiLem'},
-  ];
+ * Social items
+ */
+export const socialLinks: Social[] = [{ label: 'Github', Icon: GithubIcon, href: 'https://github.com/JussiLem' }];

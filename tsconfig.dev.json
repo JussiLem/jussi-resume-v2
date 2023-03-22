@@ -43,6 +43,7 @@
     "src/**/*.ts",
     "pages/**/*",
     "src/**/*.ts",
+    "src/**/*.tsx",
     ".projenrc.ts",
     "projenrc/**/*.ts"
   ],

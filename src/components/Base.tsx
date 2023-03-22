@@ -1,8 +1,8 @@
-import { FC, memo } from 'react'
+import { FC, memo } from 'react';
 
 const Base: FC = memo(() => {
-  return <></>
-})
+  return <></>;
+});
 
-Base.displayName = 'Base'
-export default Base
+Base.displayName = 'Base';
+export default Base;

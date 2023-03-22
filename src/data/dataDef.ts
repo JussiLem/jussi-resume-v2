@@ -1,7 +1,7 @@
-import {StaticImageData} from 'next/image';
-import {FC, SVGProps} from 'react';
+import { StaticImageData } from 'next/image';
+import { FC, SVGProps } from 'react';
 
-import {IconProps} from '../components/Icon/Icon';
+import { IconProps } from '../components/Icon/Icon';
 
 export interface HomepageMeta {
   title: string;
@@ -88,6 +88,7 @@ export interface PortfolioItem {
  */
 export interface TimelineItem {
   date: string;
+  endDate?: string;
   location?: string;
   title: string;
   content?: JSX.Element;
@@ -125,7 +126,7 @@ export const ContactType = {
   Facebook: 'Facebook',
 } as const;
 
-export type ContactType = typeof ContactType[keyof typeof ContactType];
+export type ContactType = (typeof ContactType)[keyof typeof ContactType];
 
 export interface ContactItem {
   type: ContactType;
