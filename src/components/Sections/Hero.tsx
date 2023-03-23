@@ -12,7 +12,7 @@ const Hero: FC = memo(() => {
 
   return (
     <Section noPadding sectionId={SectionId.Hero}>
-      <div className="relative flex h-screen w-screen items-center justify-center">
+      <div className="dark:bg-slate-800 relative flex h-screen w-screen items-center justify-center">
         {imageSrc ? (
           <Image
             alt={`${name}-image`}
@@ -25,10 +25,10 @@ const Hero: FC = memo(() => {
           />
         ) : null}
         <div className="z-10  max-w-screen-lg px-4 lg:px-0">
-          <div className="flex flex-col items-center gap-y-6 rounded-xl bg-gray-800/40 p-6 text-center shadow-lg backdrop-blur-sm">
-            <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-7xl">{name}</h1>
+          <div className="flex flex-col items-center gap-y-6 rounded-xl bg-gray-800/40 p-6 text-center shadow-xl backdrop-blur-sm">
+            <h1 className="text-4xl font-bold text-neutral-900 dark:text-white sm:text-5xl lg:text-7xl">{name}</h1>
             {description}
-            <div className="flex gap-x-4 text-neutral-100">
+            <div className="flex gap-x-4 text-neutral-700 dark:text-white">
               <Socials />
             </div>
             <div className="flex w-full justify-center gap-x-4">

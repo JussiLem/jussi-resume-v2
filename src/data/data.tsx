@@ -52,15 +52,15 @@ export const heroData: Hero = {
   name: `I'm Jussi Lemmetyinen`,
   description: (
     <>
-      <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
-        I'm a Helsinki based <strong className="text-stone-100">Solution Architect</strong>, currently working at{' '}
-        <strong className="text-stone-100">Gofore Oyj</strong> helping microservice and event-driven architectures with
-        hands-on attitude.
+      <p className="prose-sm text-slate-700 dark:text-white sm:prose-base lg:prose-lg">
+        I'm a Helsinki based <strong className="text-slate-900 dark:text-white">Solution Architect</strong>, currently
+        working at <strong className="text-slate-900 dark:text-white">Gofore Oyj</strong> helping microservice and
+        event-driven architectures with hands-on attitude.
       </p>
-      <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
+      <p className="prose-sm text-slate-700 dark:text-white sm:prose-base lg:prose-lg">
         In my free time time, you can catch me listening and playing music, drinking craft beer and exploring{' '}
-        <strong className="text-stone-100">new cultures</strong>, or just{' '}
-        <strong className="text-stone-100">Finland</strong>.
+        <strong className="text-slate-700 dark:text-white">new cultures</strong>, or just{' '}
+        <strong className="text-slate-700 dark:text-white">Finland</strong>.
       </p>
     </>
   ),

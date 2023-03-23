@@ -89,9 +89,15 @@ export interface PortfolioItem {
 export interface TimelineItem {
   date: string;
   endDate?: string;
-  location?: string;
+  location: string;
   title: string;
   content?: JSX.Element;
+  previousItem?: {
+    date: string;
+    endDate: string;
+    title: string;
+    content?: JSX.Element;
+  };
 }
 
 /**
