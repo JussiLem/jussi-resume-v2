@@ -25,6 +25,19 @@ const TimelineWorkItem: FC<{ work: TimelineItem }> = memo(({ work }) => {
   );
 });
 
+const WorkItems: FC<{ key: string; items: TimelineItem[] }> = memo(({ key, items }) => {
+  return (
+    <div className="pb-8 text-center last:pb-0 md:text-left">
+      <div className="col-span-1 pb-4">
+        <h2 className="text-xl font-bold pb-1">{key}</h2>
+        {items.map(work => (
+          <TimelineWorkItem work={work} />
+        ))}
+      </div>
+    </div>
+  );
+});
+
 const Resume: FC = memo(() => {
   const grouped = groupBy(
     experience.sort((a, b) => b.date.localeCompare(a.date)),
@@ -34,15 +47,8 @@ const Resume: FC = memo(() => {
     <Section className="bg-neutral-100" sectionId={SectionId.Resume}>
       <div className="flex-col divide-y-2 divide-neutral-300">
         <ResumeSection title="Work">
-          {Object.entries(grouped).map(([k, v]) => (
-            <div className="pb-8 text-center last:pb-0 md:text-left">
-              <div className="col-span-1 pb-4">
-                <h2 className="text-xl font-bold pb-1">{k}</h2>
-                {v.map(work => (
-                  <TimelineWorkItem work={work} />
-                ))}
-              </div>
-            </div>
+          {Object.entries(grouped).map(([key, items]) => (
+            <WorkItems key={key} items={items} />
           ))}
         </ResumeSection>
         <ResumeSection title="Education">
