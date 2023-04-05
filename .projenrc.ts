@@ -95,4 +95,5 @@ project.eslint?.addOverride({
     ],
   },
 });
+project.gitignore.addPatterns('.idea/');
 project.synth();
