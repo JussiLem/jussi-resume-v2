@@ -17,6 +17,7 @@ import {
   SkillGroup,
   Social,
   TestimonialSection,
+  TimelineExperienceItem,
   TimelineItem,
 } from './dataDef';
 import GithubIcon from '../components/Icon/GithubIcon';
@@ -235,13 +236,13 @@ export const education: TimelineItem[] = [
     date: 'April 2007',
     location: 'Clown college',
     title: 'Masters in Beer tasting',
-    content: <p>Describe your experience at school, what you learned, what useful skills you have acquired etc.</p>,
+    content: 'Describe your experience at school, what you learned, what useful skills you have acquired etc.',
   },
   {
     date: 'March 2003',
     location: 'School of Business',
     title: 'What did you study 101',
-    content: <p>Describe your experience at school, what you learned, what useful skills you have acquired etc.</p>,
+    content: 'Describe your experience at school, what you learned, what useful skills you have acquired etc.',
   },
 ];
 
@@ -268,65 +269,50 @@ export const certifications: TimelineItem[] = [
   },
 ];
 
-export const experience: TimelineItem[] = [
+export const experience: TimelineExperienceItem[] = [
   {
     date: '2023-04',
     location: 'Gofore Oyj',
     title: 'Solutions Architect',
-    content: (
-      <p>
-        Describe work, special projects, notable achievements, what technologies you have been working with, and
-        anything else that would be useful for an employer to know.
-      </p>
-    ),
+    content:
+      'Describe work, special projects, notable achievements, what technologies you have been working with, and' +
+      'anything else that would be useful for an employer to know.',
   },
   {
     date: '2022-02',
     endDate: '2023-03',
     location: 'Fintraffic Oy',
     title: 'Solutions Architect',
-    content: (
-      <p>
-        Describe work, special projects, notable achievements, what technologies you have been working with, and
-        anything else that would be useful for an employer to know.
-      </p>
-    ),
+    content:
+      'Describe work, special projects, notable achievements, what technologies you have been working with, and' +
+      'anything else that would be useful for an employer to know.',
   },
   {
     date: '2021-07',
     endDate: '2022-01',
     location: 'Siili Solutions Oyj',
     title: 'Consultant',
-    content: (
-      <p>
-        Describe work, special projects, notable achievements, what technologies you have been working with, and
-        anything else that would be useful for an employer to know.
-      </p>
-    ),
+    content:
+      'Describe work, special projects, notable achievements, what technologies you have been working with, and' +
+      'anything else that would be useful for an employer to know.',
   },
   {
     date: '2019-08',
     endDate: '2021-07',
     location: 'Siili Solutions Oyj',
     title: 'Junior Consultant',
-    content: (
-      <p>
-        Describe work, special projects, notable achievements, what technologies you have been working with, and
-        anything else that would be useful for an employer to know.
-      </p>
-    ),
+    content:
+      'Describe work, special projects, notable achievements, what technologies you have been working with, and' +
+      'anything else that would be useful for an employer to know.',
   },
   {
     date: '2018-05',
     endDate: '2019-07',
     location: 'Svea Ekonomi Oy',
     title: 'Software Developer',
-    content: (
-      <p>
-        Describe work, special projects, notable achievements, what technologies you have been working with, and
-        anything else that would be useful for an employer to know.
-      </p>
-    ),
+    content:
+      'Describe work, special projects, notable achievements, what technologies you have been working with, and' +
+      'anything else that would be useful for an employer to know.',
   },
 ];
 

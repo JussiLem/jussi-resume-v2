@@ -89,9 +89,23 @@ export interface PortfolioItem {
 export interface TimelineItem {
   date: string;
   endDate?: string;
+  title: string;
+  location?: string;
+  content?: string;
+  previousItem?: {
+    date: string;
+    endDate: string;
+    title: string;
+    content?: JSX.Element;
+  };
+}
+
+export interface TimelineExperienceItem extends TimelineItem {
+  date: string;
+  endDate?: string;
   location: string;
   title: string;
-  content?: JSX.Element;
+  content?: string;
   previousItem?: {
     date: string;
     endDate: string;
