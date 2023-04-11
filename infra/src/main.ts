@@ -56,8 +56,8 @@ export class Resume extends Stack {
 
 // for development, use account/region from cdk cli
 const devEnv = {
-  account: process.env.CDK_DEFAULT_ACCOUNT,
-  region: process.env.CDK_DEFAULT_REGION,
+  account: env('CDK_DEFAULT_ACCOUNT'),
+  region: env('CDK_DEFAULT_REGION'),
 };
 
 const app = new App();
@@ -65,7 +65,7 @@ Aspects.of(app).add(new AwsSolutionsChecks());
 
 new CertificateStack(app, 'certificate', {
   env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
+    account: devEnv.account,
     region: 'us-east-1',
   },
 });
