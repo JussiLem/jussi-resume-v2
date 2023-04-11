@@ -6,7 +6,7 @@ const project = new web.NextJsTypeScriptProject({
   sampleCode: false,
   projenrcTs: true,
   prettier: true,
-  release: false,
+  release: true,
   prettierOptions: {
     settings: {
       bracketSpacing: true,
@@ -123,12 +123,40 @@ new awscdk.AwsCdkTypeScriptApp({
     },
   },
 });
+
+/*const setAwsCredentialsInEnvironment = (): github.workflows.JobStep => {
+  const commands = [
+    'echo "AWS_ACCESS_KEY_ID=$accessKeyId" >> $GITHUB_ENV',
+    'echo "AWS_SECRET_ACCESS_KEY=$secretAccessKey" >> $GITHUB_ENV',
+    'echo "AWS_REGION=$region" >> $GITHUB_ENV',
+  ];
+
+  return {
+    name: 'Configure AWS Credentials',
+    run: `${commands.join('\n')}`,
+    env: {
+      accessKeyId: '${{ secrets[matrix.accessKeyIdSecretName] }}',
+      secretAccessKey: '${{ secrets[matrix.secretAccessKeySecretName] }}',
+      region: '${{ matrix.region }}',
+    },
+  };
+};*/
+
 const jobDefinition: github.workflows.Job = {
   permissions: {
-    deployments: github.workflows.JobPermission.WRITE,
+    deployments: github.workflows.JobPermission.READ,
+    contents: github.workflows.JobPermission.READ,
   },
+  needs: ['release_github'],
   runsOn: ['ubuntu-latest'],
   steps: [
+    {
+      name: 'Checkout',
+      uses: 'actions/checkout@v3',
+      with: {
+        ref: '${{ github.sha }}',
+      },
+    },
     {
       name: 'Setup',
       uses: 'actions/setup-node@v3',
@@ -142,5 +170,13 @@ const jobDefinition: github.workflows.Job = {
     },
   ],
 };
-project.buildWorkflow?.addPostBuildJob('deploy', jobDefinition);
+// jobDefinition.steps.push(setAwsCredentialsInEnvironment());
+jobDefinition.steps.push({
+  name: 'Deployment',
+  run: 'npx cdk synth && npx cdk deploy',
+});
+
+project.release?.addJobs({
+  deploy: jobDefinition,
+});
 project.synth();
