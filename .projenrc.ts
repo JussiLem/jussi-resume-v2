@@ -6,6 +6,9 @@ const project = new web.NextJsTypeScriptProject({
   sampleCode: false,
   projenrcTs: true,
   prettier: true,
+  githubOptions: {
+    pullRequestLint: false,
+  },
   release: true,
   prettierOptions: {
     settings: {
