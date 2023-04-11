@@ -149,6 +149,7 @@ const jobDefinition: github.workflows.Job = {
   permissions: {
     deployments: github.workflows.JobPermission.READ,
     contents: github.workflows.JobPermission.READ,
+    idToken: github.workflows.JobPermission.WRITE,
   },
   needs: ['release_github'],
   runsOn: ['ubuntu-latest'],
@@ -174,6 +175,14 @@ const jobDefinition: github.workflows.Job = {
   ],
 };
 // jobDefinition.steps.push(setAwsCredentialsInEnvironment());
+jobDefinition.steps.push({
+  name: 'Configure AWS Credentials',
+  uses: 'aws-actions/configure-aws-credentials@v2',
+  with: {
+    'role-to-assume': process.env.ASSUME_ROLE,
+    'aws-region': process.env.CDK_DEFAULT_REGION,
+  },
+});
 jobDefinition.steps.push({
   name: 'Deployment',
   run: 'cd infra && npx cdk synth && npx cdk deploy',

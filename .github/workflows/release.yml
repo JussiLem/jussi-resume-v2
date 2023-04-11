@@ -76,6 +76,7 @@ jobs:
     permissions:
       deployments: read
       contents: read
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -87,5 +88,8 @@ jobs:
           node-version: 16.x
       - name: Install dependencies
         run: cd infra && npm ci
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with: {}
       - name: Deployment
         run: cd infra && npx cdk synth && npx cdk deploy
