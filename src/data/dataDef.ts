@@ -21,6 +21,7 @@ export interface HomepageMeta {
   twitterUrl?: string;
   twitterDescription?: string;
   twitterImageUrl?: string;
+  children?: JSX.Element[];
 }
 
 /**

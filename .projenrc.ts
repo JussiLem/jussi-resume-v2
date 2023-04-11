@@ -1,10 +1,12 @@
-import { javascript, web } from 'projen';
+import { awscdk, github, javascript, web } from 'projen';
 
 const project = new web.NextJsTypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'jussi-resume-v2',
+  sampleCode: false,
   projenrcTs: true,
   prettier: true,
+  release: true,
   prettierOptions: {
     settings: {
       bracketSpacing: true,
@@ -24,12 +26,12 @@ const project = new web.NextJsTypeScriptProject({
   tsconfig: {
     compilerOptions: {
       rootDir: 'src',
-      //      rootDir: undefined,
       //      module: 'esnext',
       //      target: 'esnext',
       //      esModuleInterop: true,
     },
-    include: ['pages/**/*.tsx', 'src/**/*.ts'],
+    // include: ['pages/**/*.tsx', 'src/**/*.ts'],
+    exclude: ['infra'],
   },
   tsconfigDev: {
     compilerOptions: {
@@ -64,10 +66,12 @@ const project = new web.NextJsTypeScriptProject({
     'eslint-plugin-simple-import-sort',
     'eslint-plugin-sort-keys-fix',
     'tailwindcss',
+    'cssnano@6.0.0',
   ],
   // packageName: undefined,  /* The "name" in package.json. */
   tailwind: false,
 });
+
 project.eslint?.addPlugins('react-memo', 'react-hooks', 'simple-import-sort');
 project.eslint?.addExtends('plugin:@next/next/recommended');
 project.eslint?.addOverride({
@@ -96,4 +100,83 @@ project.eslint?.addOverride({
   },
 });
 project.gitignore.addPatterns('.idea/');
+
+new awscdk.AwsCdkTypeScriptApp({
+  parent: project,
+  cdkVersion: '2.73.0',
+  defaultReleaseBranch: 'main',
+  name: 'infra',
+  deps: ['cdk-nag'],
+  packageManager: javascript.NodePackageManager.NPM,
+  projenrcTs: true,
+  prettier: true,
+  outdir: 'infra',
+  prettierOptions: {
+    settings: {
+      bracketSpacing: true,
+      printWidth: 120,
+      singleQuote: true,
+      tabWidth: 2,
+      trailingComma: javascript.TrailingComma.ALL,
+      useTabs: false,
+      arrowParens: javascript.ArrowParens.AVOID,
+    },
+  },
+});
+
+/*const setAwsCredentialsInEnvironment = (): github.workflows.JobStep => {
+  const commands = [
+    'echo "AWS_ACCESS_KEY_ID=$accessKeyId" >> $GITHUB_ENV',
+    'echo "AWS_SECRET_ACCESS_KEY=$secretAccessKey" >> $GITHUB_ENV',
+    'echo "AWS_REGION=$region" >> $GITHUB_ENV',
+  ];
+
+  return {
+    name: 'Configure AWS Credentials',
+    run: `${commands.join('\n')}`,
+    env: {
+      accessKeyId: '${{ secrets[matrix.accessKeyIdSecretName] }}',
+      secretAccessKey: '${{ secrets[matrix.secretAccessKeySecretName] }}',
+      region: '${{ matrix.region }}',
+    },
+  };
+};*/
+
+const jobDefinition: github.workflows.Job = {
+  permissions: {
+    deployments: github.workflows.JobPermission.READ,
+    contents: github.workflows.JobPermission.READ,
+  },
+  needs: ['release_github'],
+  runsOn: ['ubuntu-latest'],
+  steps: [
+    {
+      name: 'Checkout',
+      uses: 'actions/checkout@v3',
+      with: {
+        ref: '${{ github.sha }}',
+      },
+    },
+    {
+      name: 'Setup',
+      uses: 'actions/setup-node@v3',
+      with: {
+        'node-version': '16.x',
+      },
+    },
+    {
+      name: 'Install dependencies',
+      run: 'cd infra && npm ci',
+    },
+  ],
+};
+// jobDefinition.steps.push(setAwsCredentialsInEnvironment());
+jobDefinition.steps.push({
+  name: 'Deployment',
+  run: 'npx cdk synth && npx cdk deploy',
+});
+
+project.release?.addJobs({
+  deploy: jobDefinition,
+});
 project.synth();
