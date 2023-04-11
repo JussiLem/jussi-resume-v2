@@ -1,4 +1,4 @@
-import { javascript, web } from 'projen';
+import { javascript, web, awscdk } from 'projen';
 
 const project = new web.NextJsTypeScriptProject({
   defaultReleaseBranch: 'main',
@@ -96,4 +96,30 @@ project.eslint?.addOverride({
   },
 });
 project.gitignore.addPatterns('.idea/');
+
+new awscdk.AwsCdkTypeScriptApp({
+  parent: project,
+  githubOptions: {
+    workflows: false,
+  },
+  cdkVersion: '2.73.0',
+  defaultReleaseBranch: 'main',
+  name: 'infra',
+  deps: ['cdk-nag'],
+  packageManager: javascript.NodePackageManager.NPM,
+  projenrcTs: true,
+  prettier: true,
+  outdir: 'infra',
+  prettierOptions: {
+    settings: {
+      bracketSpacing: true,
+      printWidth: 120,
+      singleQuote: true,
+      tabWidth: 2,
+      trailingComma: javascript.TrailingComma.ALL,
+      useTabs: false,
+      arrowParens: javascript.ArrowParens.AVOID,
+    },
+  },
+});
 project.synth();
