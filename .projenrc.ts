@@ -1,10 +1,12 @@
-import { javascript, web, awscdk } from 'projen';
+import { awscdk, github, javascript, web } from 'projen';
 
 const project = new web.NextJsTypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'jussi-resume-v2',
+  sampleCode: false,
   projenrcTs: true,
   prettier: true,
+  release: false,
   prettierOptions: {
     settings: {
       bracketSpacing: true,
@@ -24,12 +26,12 @@ const project = new web.NextJsTypeScriptProject({
   tsconfig: {
     compilerOptions: {
       rootDir: 'src',
-      //      rootDir: undefined,
       //      module: 'esnext',
       //      target: 'esnext',
       //      esModuleInterop: true,
     },
-    include: ['pages/**/*.tsx', 'src/**/*.ts'],
+    // include: ['pages/**/*.tsx', 'src/**/*.ts'],
+    exclude: ['infra'],
   },
   tsconfigDev: {
     compilerOptions: {
@@ -64,10 +66,12 @@ const project = new web.NextJsTypeScriptProject({
     'eslint-plugin-simple-import-sort',
     'eslint-plugin-sort-keys-fix',
     'tailwindcss',
+    'cssnano@6.0.0',
   ],
   // packageName: undefined,  /* The "name" in package.json. */
   tailwind: false,
 });
+
 project.eslint?.addPlugins('react-memo', 'react-hooks', 'simple-import-sort');
 project.eslint?.addExtends('plugin:@next/next/recommended');
 project.eslint?.addOverride({
@@ -99,9 +103,6 @@ project.gitignore.addPatterns('.idea/');
 
 new awscdk.AwsCdkTypeScriptApp({
   parent: project,
-  githubOptions: {
-    workflows: false,
-  },
   cdkVersion: '2.73.0',
   defaultReleaseBranch: 'main',
   name: 'infra',
@@ -122,4 +123,24 @@ new awscdk.AwsCdkTypeScriptApp({
     },
   },
 });
+const jobDefinition: github.workflows.Job = {
+  permissions: {
+    deployments: github.workflows.JobPermission.WRITE,
+  },
+  runsOn: ['ubuntu-latest'],
+  steps: [
+    {
+      name: 'Setup',
+      uses: 'actions/setup-node@v3',
+      with: {
+        'node-version': '16.x',
+      },
+    },
+    {
+      name: 'Install dependencies',
+      run: 'cd infra && npm ci',
+    },
+  ],
+};
+project.buildWorkflow?.addPostBuildJob('deploy', jobDefinition);
 project.synth();

@@ -38,6 +38,11 @@
       "type": "build"
     },
     {
+      "name": "cssnano",
+      "version": "6.0.0",
+      "type": "build"
+    },
+    {
       "name": "eslint-config-prettier",
       "type": "build"
     },

@@ -39,8 +39,10 @@
   },
   "include": [
     "pages/**/*.ts",
-    "pages/**/*.tsx",
-    "src/**/*.ts"
+    "**/*.ts",
+    "**/*.tsx"
   ],
-  "exclude": []
+  "exclude": [
+    "infra"
+  ]
 }

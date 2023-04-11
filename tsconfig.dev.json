@@ -40,8 +40,8 @@
     ".projenrc.js",
     "pages/**/*.ts",
     "test/**/*.ts",
-    "pages/**/*.tsx",
-    "src/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
     "pages/**/*",
     "src/**/*.ts",
     "src/**/*.tsx",
@@ -49,6 +49,7 @@
     "projenrc/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "infra"
   ]
 }
