@@ -176,7 +176,7 @@ const jobDefinition: github.workflows.Job = {
 // jobDefinition.steps.push(setAwsCredentialsInEnvironment());
 jobDefinition.steps.push({
   name: 'Deployment',
-  run: 'npx cdk synth && npx cdk deploy',
+  run: 'cd infra && npx cdk synth && npx cdk deploy',
 });
 
 project.release?.addJobs({

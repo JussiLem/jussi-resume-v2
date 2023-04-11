@@ -88,4 +88,4 @@ jobs:
       - name: Install dependencies
         run: cd infra && npm ci
       - name: Deployment
-        run: npx cdk synth && npx cdk deploy
+        run: cd infra && npx cdk synth && npx cdk deploy
