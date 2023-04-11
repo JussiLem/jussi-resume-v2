@@ -3,6 +3,12 @@ import { FC, SVGProps } from 'react';
 
 import { IconProps } from '../components/Icon/Icon';
 
+export type ResumeData = {
+  experience: { [p: string]: TimelineExperienceItem[] };
+  education: TimelineItem[];
+  certs: TimelineItem[];
+  skills: SkillGroup[];
+};
 export interface HomepageMeta {
   title: string;
   description: string;

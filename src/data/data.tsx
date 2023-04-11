@@ -257,7 +257,7 @@ export const certifications: TimelineItem[] = [
   },
   {
     date: '2021-06',
-    title: 'AWS Certified SysOps Adminstrator - Associate',
+    title: 'AWS Certified SysOps Administrator - Associate',
   },
   {
     date: '2020-08',

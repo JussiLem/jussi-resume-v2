@@ -8,26 +8,23 @@ import Hero from '../src/components/Sections/Hero';
 // import Portfolio from '../src/components/Sections/Portfolio';
 import Resume from '../src/components/Sections/Resume';
 // import Testimonials from '../src/components/Sections/Testimonials';
-import { groupBy } from '../src/components/Sections/Resume/common';
-import { certifications, education as edu, experience as exp, homePageMeta, skills as skls } from '../src/data/data';
-import { SkillGroup, TimelineExperienceItem, TimelineItem } from '../src/data/dataDef';
+import { homePageMeta } from '../src/data/data';
+import { ResumeData } from '../src/data/dataDef';
+import { getResumeData } from '../src/lib/getResumeData';
 
 // eslint-disable-next-line react-memo/require-memo
 const Header = dynamic(() => import('../src/components/Sections/Header'), { ssr: false });
 
 const Home: FC<{
-  experience: { [p: string]: TimelineExperienceItem[] };
-  education: TimelineItem[];
-  certs: TimelineItem[];
-  skills: SkillGroup[];
-}> = memo(({ experience, education, certs, skills }) => {
+  resume: ResumeData;
+}> = memo(({ resume }) => {
   const { title, description } = homePageMeta;
   return (
     <Page description={description} title={title}>
       <Header />
       <Hero />
       <About />
-      <Resume skills={skills} certs={certs} experience={experience} education={education} />
+      <Resume skills={resume.skills} certs={resume.certs} experience={resume.experience} education={resume.education} />
       {/* <Portfolio />
       <Testimonials /> */}
       <Contact />
@@ -36,21 +33,16 @@ const Home: FC<{
   );
 });
 
-const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
-export const getStaticProps = async () => {
-  await sleep(1000);
-  const grouped = groupBy(
-    exp.sort((a, b) => b.date.localeCompare(a.date)),
-    v => v.location,
-  );
+export default Home;
+
+export const getStaticProps: () => Promise<{
+  props: {
+    resume: ResumeData;
+  };
+}> = async () => {
   return {
     props: {
-      experience: JSON.parse(JSON.stringify(grouped)) as { [p: string]: TimelineExperienceItem[] },
-      education: JSON.parse(JSON.stringify(edu)) as TimelineItem[],
-      certs: JSON.parse(JSON.stringify(certifications)) as TimelineItem[],
-      skills: JSON.parse(JSON.stringify(skls)) as SkillGroup[],
+      resume: await getResumeData(),
     },
   };
 };
-
-export default Home;
