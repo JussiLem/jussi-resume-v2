@@ -90,6 +90,8 @@ jobs:
         run: cd infra && npm ci
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
-        with: {}
+        with:
+          role-to-assume: ${{ secrets.ASSUME_ROLE }}
+          aws-region: ${{ secrets.CDK_DEFAULT_REGION }}
       - name: Deployment
         run: cd infra && npx cdk synth && npx cdk deploy

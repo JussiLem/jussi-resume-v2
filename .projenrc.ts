@@ -179,8 +179,8 @@ jobDefinition.steps.push({
   name: 'Configure AWS Credentials',
   uses: 'aws-actions/configure-aws-credentials@v2',
   with: {
-    'role-to-assume': process.env.ASSUME_ROLE,
-    'aws-region': process.env.CDK_DEFAULT_REGION,
+    'role-to-assume': '${{ secrets.ASSUME_ROLE }}',
+    'aws-region': '${{ secrets.CDK_DEFAULT_REGION }}',
   },
 });
 jobDefinition.steps.push({
