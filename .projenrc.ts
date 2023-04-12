@@ -127,24 +127,6 @@ new awscdk.AwsCdkTypeScriptApp({
   },
 });
 
-/*const setAwsCredentialsInEnvironment = (): github.workflows.JobStep => {
-  const commands = [
-    'echo "AWS_ACCESS_KEY_ID=$accessKeyId" >> $GITHUB_ENV',
-    'echo "AWS_SECRET_ACCESS_KEY=$secretAccessKey" >> $GITHUB_ENV',
-    'echo "AWS_REGION=$region" >> $GITHUB_ENV',
-  ];
-
-  return {
-    name: 'Configure AWS Credentials',
-    run: `${commands.join('\n')}`,
-    env: {
-      accessKeyId: '${{ secrets[matrix.accessKeyIdSecretName] }}',
-      secretAccessKey: '${{ secrets[matrix.secretAccessKeySecretName] }}',
-      region: '${{ matrix.region }}',
-    },
-  };
-};*/
-
 const jobDefinition: github.workflows.Job = {
   permissions: {
     deployments: github.workflows.JobPermission.READ,
@@ -174,7 +156,7 @@ const jobDefinition: github.workflows.Job = {
     },
   ],
 };
-// jobDefinition.steps.push(setAwsCredentialsInEnvironment());
+
 jobDefinition.steps.push({
   name: 'Configure AWS Credentials',
   uses: 'aws-actions/configure-aws-credentials@v2',
@@ -195,8 +177,8 @@ jobDefinition.steps.push({
 });
 
 jobDefinition.steps.push({
-  name: 'Deployment',
-  run: 'cd infra && npx cdk synth && npx cdk deploy',
+  name: 'Deploy Certificate',
+  run: 'cd infra && npx cdk synth && npx cdk deploy certificate',
   env: {
     CDK_DEFAULT_REGION: '${{ secrets.CDK_DEFAULT_REGION }}',
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',

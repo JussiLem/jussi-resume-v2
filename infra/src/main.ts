@@ -68,10 +68,7 @@ const app = new App();
 Aspects.of(app).add(new AwsSolutionsChecks());
 
 new CertificateStack(app, 'certificate', {
-  env: {
-    account: devEnv.account,
-    region: 'us-east-1',
-  },
+  env: devEnv,
   domainName: env('DOMAIN_NAME'),
 });
 new Resume(app, 'resume', { env: devEnv, nextStaticDir: nextPath });
