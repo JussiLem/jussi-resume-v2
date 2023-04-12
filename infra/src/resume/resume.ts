@@ -42,9 +42,11 @@ type ResumeProps = {
 export class Resume extends Stack {
   constructor(scope: Construct, id: string, props: ResumeProps) {
     super(scope, id, props);
-    const nextjs = new NextJsServerless(this, 'NextJs');
-    NagSuppressions.addResourceSuppressions(nextjs, [{ id: 'AwsSolutions-IAM4', reason: 'Use managed policy' }]);
-    NagSuppressions.addResourceSuppressions(nextjs, [{ id: 'AwsSolutions-IAM5', reason: 'Custom resource' }]);
+    new NextJsServerless(this, 'NextJs');
+    NagSuppressions.addStackSuppressions(this, [{ id: 'AwsSolutions-IAM4', reason: 'Change later to own policy' }]);
+    NagSuppressions.addStackSuppressions(this, [
+      { id: 'AwsSolutions-IAM5', reason: 'Change later to stop using wildcard' },
+    ]);
 
     // new nodejs.NodejsFunction(this, 'RegenerationLambda', {
     //   handler: 'index.handler',

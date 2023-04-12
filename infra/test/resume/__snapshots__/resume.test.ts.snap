@@ -2,6 +2,20 @@
 
 exports[`Snapshot 1`] = `
 {
+  "Metadata": {
+    "cdk_nag": {
+      "rules_to_suppress": [
+        {
+          "id": "AwsSolutions-IAM4",
+          "reason": "Change later to own policy",
+        },
+        {
+          "id": "AwsSolutions-IAM5",
+          "reason": "Change later to stop using wildcard",
+        },
+      ],
+    },
+  },
   "Parameters": {
     "BootstrapVersion": {
       "Default": "/cdk-bootstrap/hnb659fds/version",
