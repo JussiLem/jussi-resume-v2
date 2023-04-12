@@ -104,4 +104,10 @@ jobs:
           CDK_DEFAULT_REGION: ${{ secrets.CDK_DEFAULT_REGION }}
           CDK_DEFAULT_ACCOUNT: ${{ secrets.CDK_DEFAULT_ACCOUNT }}
           DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
-        run: cd infra && npx cdk synth && npx cdk deploy certificate
+        run: cd infra && npx cdk synth certificate && npx cdk deploy certificate
+      - name: Deploy Resume
+        env:
+          CDK_DEFAULT_REGION: ${{ secrets.CDK_DEFAULT_REGION }}
+          CDK_DEFAULT_ACCOUNT: ${{ secrets.CDK_DEFAULT_ACCOUNT }}
+          DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
+        run: cd infra && npx cdk synth resume && npx cdk deploy resume

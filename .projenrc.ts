@@ -190,6 +190,16 @@ jobDefinition.steps.push({
   },
 });
 
+jobDefinition.steps.push({
+  name: 'Deploy Resume',
+  run: 'cd infra && npx cdk synth resume && npx cdk deploy resume',
+  env: {
+    CDK_DEFAULT_REGION: '${{ secrets.CDK_DEFAULT_REGION }}',
+    CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
+    DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
+  },
+});
+
 project.release?.addJobs({
   deploy: jobDefinition,
 });
