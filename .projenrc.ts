@@ -192,7 +192,7 @@ jobDefinition.steps.push({
 
 jobDefinition.steps.push({
   name: 'Deploy Resume',
-  run: 'cd infra && npx cdk synth resume && npx cdk deploy resume',
+  run: 'cd infra && npx cdk synth resume && npx cdk deploy resume --require-approval never',
   env: {
     CDK_DEFAULT_REGION: '${{ secrets.CDK_DEFAULT_REGION }}',
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
