@@ -110,6 +110,10 @@ new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: 'main',
   name: 'infra',
   deps: ['cdk-nag'],
+  tsconfig: {
+    include: ['test/**/*.ts'],
+    compilerOptions: {},
+  },
   packageManager: javascript.NodePackageManager.NPM,
   projenrcTs: true,
   prettier: true,
