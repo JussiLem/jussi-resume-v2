@@ -17,7 +17,10 @@ const app = new App();
 Aspects.of(app).add(new AwsSolutionsChecks());
 
 new resume.Certificate(app, 'certificate', {
-  env: devEnv,
+  env: {
+    account: devEnv.account,
+    region: 'us-east-1',
+  },
   domainName: env('DOMAIN_NAME'),
 });
 new resume.Resume(app, 'resume', { env: devEnv, nextStaticDir: nextPath });

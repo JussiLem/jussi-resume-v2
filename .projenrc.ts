@@ -182,7 +182,7 @@ jobDefinition.steps.push({
 
 jobDefinition.steps.push({
   name: 'Deploy Certificate',
-  run: 'cd infra && npx cdk synth && npx cdk deploy certificate',
+  run: 'cd infra && npx cdk synth certificate && npx cdk deploy certificate',
   env: {
     CDK_DEFAULT_REGION: '${{ secrets.CDK_DEFAULT_REGION }}',
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
