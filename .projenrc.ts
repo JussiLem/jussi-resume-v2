@@ -183,9 +183,24 @@ jobDefinition.steps.push({
     'aws-region': '${{ secrets.CDK_DEFAULT_REGION }}',
   },
 });
+
+jobDefinition.steps.push({
+  name: 'Bootstrap',
+  run: 'cd infra && npx cdk bootstrap aws://$CDK_DEFAULT_ACCOUNT/$CDK_DEFAULT_REGION aws://$CDK_DEFAULT_ACCOUNT/us-east-1',
+  env: {
+    CDK_DEFAULT_REGION: '${{ secrets.CDK_DEFAULT_REGION }}',
+    CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
+  },
+});
+
 jobDefinition.steps.push({
   name: 'Deployment',
   run: 'cd infra && npx cdk synth && npx cdk deploy',
+  env: {
+    CDK_DEFAULT_REGION: '${{ secrets.CDK_DEFAULT_REGION }}',
+    CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
+    DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
+  },
 });
 
 project.release?.addJobs({

@@ -24,10 +24,14 @@ export const env = (name: string): string => {
   return value;
 };
 
+type CertificateStackProps = {
+  domainName: string;
+} & StackProps;
+
 export class CertificateStack extends Stack {
-  constructor(scope: Construct, id: string, props: StackProps) {
+  constructor(scope: Construct, id: string, props: CertificateStackProps) {
     super(scope, id, props);
-    const domainName = env('DOMAIN_NAME');
+    const { domainName } = props;
 
     const hostedZone = route53.HostedZone.fromLookup(this, 'HostedZone', {
       domainName,
@@ -68,6 +72,7 @@ new CertificateStack(app, 'certificate', {
     account: devEnv.account,
     region: 'us-east-1',
   },
+  domainName: env('DOMAIN_NAME'),
 });
 new Resume(app, 'resume', { env: devEnv, nextStaticDir: nextPath });
 
