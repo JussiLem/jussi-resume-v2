@@ -10,18 +10,19 @@ export interface S3BucketProps {
   readonly bucketProps?: s3.BucketProps;
 }
 
-const DefaultS3Props = (bucketProps?: s3.BucketProps): s3.BucketProps =>
+const DefaultS3Props = (): s3.BucketProps =>
   ({
     encryption: s3.BucketEncryption.S3_MANAGED,
-    versioned: true,
+    versioned: false,
     blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-    removalPolicy: bucketProps && bucketProps?.removalPolicy ? bucketProps.removalPolicy : RemovalPolicy.RETAIN,
     enforceSSL: true,
+    autoDeleteObjects: true,
+    removalPolicy: RemovalPolicy.DESTROY,
   } as s3.BucketProps);
 
 export const buildS3Bucket = (scope: Construct, props?: S3BucketProps, bucketId?: string) => {
   const resolvedBucketId = bucketId ? bucketId + 'S3Bucket' : 'S3Bucket';
   const customBucketProps =
-    props && props.bucketProps ? { ...props.bucketProps, ...DefaultS3Props(props.bucketProps) } : DefaultS3Props();
+    props && props.bucketProps ? { ...props.bucketProps, ...DefaultS3Props() } : DefaultS3Props();
   return new s3.Bucket(scope, resolvedBucketId, customBucketProps);
 };

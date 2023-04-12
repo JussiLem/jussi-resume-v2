@@ -102,9 +102,6 @@ exports[`Snapshot 1`] = `
             "Value": "true",
           },
         ],
-        "VersioningConfiguration": {
-          "Status": "Enabled",
-        },
       },
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Delete",
