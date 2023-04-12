@@ -110,6 +110,7 @@ new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: 'main',
   name: 'infra',
   deps: ['cdk-nag'],
+  devDeps: ['@types/aws-cloudfront-function@1.0.2'],
   tsconfig: {
     include: ['test/**/*.ts'],
     compilerOptions: {},
@@ -192,7 +193,8 @@ jobDefinition.steps.push({
 
 jobDefinition.steps.push({
   name: 'Deploy Resume',
-  run: 'cd infra && npx cdk synth resume && npx cdk deploy resume --require-approval never',
+  workingDirectory: 'infra',
+  run: 'npx cdk synth resume && npx cdk deploy resume --require-approval never',
   env: {
     CDK_DEFAULT_REGION: '${{ secrets.CDK_DEFAULT_REGION }}',
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',

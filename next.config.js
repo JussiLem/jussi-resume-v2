@@ -1,8 +1,5 @@
-/**
- * @type {import('next').NextConfig}
- */
-const nextConfig = {
-    compress: false,
+module.exports = (phase, { defaultConfig }) => {
+    return {
+        compress: false,
+    }
 }
-
-export default nextConfig

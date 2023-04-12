@@ -1,6 +1,11 @@
 {
   "dependencies": [
     {
+      "name": "@types/aws-cloudfront-function",
+      "version": "1.0.2",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },

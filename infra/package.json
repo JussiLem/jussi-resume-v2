@@ -22,6 +22,7 @@
     "projen": "npx projen"
   },
   "devDependencies": {
+    "@types/aws-cloudfront-function": "1.0.2",
     "@types/jest": "^29.5.0",
     "@types/node": "^16",
     "@typescript-eslint/eslint-plugin": "^5",
