@@ -5,7 +5,7 @@ type CertificateStackProps = {
   domainName: string;
 } & StackProps;
 
-export class CertificateStack extends Stack {
+export class Certificate extends Stack {
   constructor(scope: Construct, id: string, props: CertificateStackProps) {
     super(scope, id, props);
     const { domainName } = props;

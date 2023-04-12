@@ -1,9 +1,8 @@
 import { join } from 'path';
 import { App, Aspects } from 'aws-cdk-lib';
 import { AwsSolutionsChecks } from 'cdk-nag';
-import { CertificateStack } from './certificate';
 import { env } from './common';
-import { Resume } from './resume';
+import * as resume from './resume';
 
 const nextPath = join(__dirname, '../.next');
 // const outputPath = join(nextPath, '/build');
@@ -17,10 +16,10 @@ const devEnv = {
 const app = new App();
 Aspects.of(app).add(new AwsSolutionsChecks());
 
-new CertificateStack(app, 'certificate', {
+new resume.Certificate(app, 'certificate', {
   env: devEnv,
   domainName: env('DOMAIN_NAME'),
 });
-new Resume(app, 'resume', { env: devEnv, nextStaticDir: nextPath });
+new resume.Resume(app, 'resume', { env: devEnv, nextStaticDir: nextPath });
 
 app.synth();
