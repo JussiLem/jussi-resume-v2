@@ -1,4 +1,5 @@
 import { aws_cloudfront as cloudfront, aws_s3 as s3, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { buildS3Bucket } from '../s3-bucket-helper';
 
@@ -10,12 +11,17 @@ export class NextJsServerless extends Construct {
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    this.s3Bucket = buildS3Bucket(this, {
-      bucketProps: {
-        autoDeleteObjects: true,
-        removalPolicy: RemovalPolicy.DESTROY,
+    this.s3Bucket = buildS3Bucket(
+      this,
+      {
+        bucketProps: {
+          autoDeleteObjects: true,
+          removalPolicy: RemovalPolicy.DESTROY,
+        },
       },
-    });
+      'PublicAssets',
+    );
+    NagSuppressions.addResourceSuppressions(this.s3Bucket, [{ id: 'AwsSolutions-S1', reason: 'For money saving' }]);
   }
 }
 

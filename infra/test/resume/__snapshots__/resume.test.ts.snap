@@ -27,7 +27,7 @@ exports[`Snapshot 1`] = `
             [
               "Lambda function for auto-deleting objects in ",
               {
-                "Ref": "NextJsS3BucketC61E3ADE",
+                "Ref": "NextJsPublicAssetsS3Bucket06B7483E",
               },
               " S3 bucket.",
             ],
@@ -68,14 +68,55 @@ exports[`Snapshot 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "NextJsS3BucketAutoDeleteObjectsCustomResource48FACFD5": {
+    "NextJsPublicAssetsS3Bucket06B7483E": {
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-S1",
+              "reason": "For money saving",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+        "Tags": [
+          {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true",
+          },
+        ],
+        "VersioningConfiguration": {
+          "Status": "Enabled",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "NextJsPublicAssetsS3BucketAutoDeleteObjectsCustomResourceE9FF351F": {
       "DeletionPolicy": "Delete",
       "DependsOn": [
-        "NextJsS3BucketPolicyAB095B3B",
+        "NextJsPublicAssetsS3BucketPolicy47582B83",
       ],
       "Properties": {
         "BucketName": {
-          "Ref": "NextJsS3BucketC61E3ADE",
+          "Ref": "NextJsPublicAssetsS3Bucket06B7483E",
         },
         "ServiceToken": {
           "Fn::GetAtt": [
@@ -87,26 +128,47 @@ exports[`Snapshot 1`] = `
       "Type": "Custom::S3AutoDeleteObjects",
       "UpdateReplacePolicy": "Delete",
     },
-    "NextJsS3BucketC61E3ADE": {
-      "DeletionPolicy": "Delete",
-      "Properties": {
-        "Tags": [
-          {
-            "Key": "aws-cdk:auto-delete-objects",
-            "Value": "true",
-          },
-        ],
-      },
-      "Type": "AWS::S3::Bucket",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "NextJsS3BucketPolicyAB095B3B": {
+    "NextJsPublicAssetsS3BucketPolicy47582B83": {
       "Properties": {
         "Bucket": {
-          "Ref": "NextJsS3BucketC61E3ADE",
+          "Ref": "NextJsPublicAssetsS3Bucket06B7483E",
         },
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "NextJsPublicAssetsS3Bucket06B7483E",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "NextJsPublicAssetsS3Bucket06B7483E",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
             {
               "Action": [
                 "s3:GetBucket*",
@@ -125,7 +187,7 @@ exports[`Snapshot 1`] = `
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "NextJsS3BucketC61E3ADE",
+                    "NextJsPublicAssetsS3Bucket06B7483E",
                     "Arn",
                   ],
                 },
@@ -135,7 +197,7 @@ exports[`Snapshot 1`] = `
                     [
                       {
                         "Fn::GetAtt": [
-                          "NextJsS3BucketC61E3ADE",
+                          "NextJsPublicAssetsS3Bucket06B7483E",
                           "Arn",
                         ],
                       },
