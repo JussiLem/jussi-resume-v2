@@ -190,6 +190,7 @@ jobDefinition.steps.push({
   env: {
     CDK_DEFAULT_REGION: '${{ secrets.CDK_DEFAULT_REGION }}',
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
+    DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
   },
 });
 
