@@ -155,16 +155,16 @@ const jobDefinition: github.workflows.Job = {
       },
     },
     {
-      name: 'Build frontend',
-      run: 'npm install && npx projen build',
-    },
-    {
       name: 'Install dependencies',
       workingDirectory: 'infra',
       run: 'npm ci',
     },
   ],
 };
+jobDefinition.steps.push({
+  name: 'Build frontend',
+  run: 'npm install && npx projen build',
+});
 
 jobDefinition.steps.push({
   name: 'Configure AWS Credentials',
