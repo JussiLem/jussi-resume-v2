@@ -86,8 +86,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
+      - name: Build frontend
+        run: npm install && npx projen build
       - name: Install dependencies
-        run: cd infra && npm ci
+        run: npm ci
+        working-directory: infra
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:

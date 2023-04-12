@@ -33,7 +33,6 @@ const project = new web.NextJsTypeScriptProject({
       //      target: 'esnext',
       //      esModuleInterop: true,
     },
-    // include: ['pages/**/*.tsx', 'src/**/*.ts'],
     exclude: ['infra'],
   },
   tsconfigDev: {
@@ -156,8 +155,13 @@ const jobDefinition: github.workflows.Job = {
       },
     },
     {
+      name: 'Build frontend',
+      run: 'npm install && npx projen build',
+    },
+    {
       name: 'Install dependencies',
-      run: 'cd infra && npm ci',
+      workingDirectory: 'infra',
+      run: 'npm ci',
     },
   ],
 };
