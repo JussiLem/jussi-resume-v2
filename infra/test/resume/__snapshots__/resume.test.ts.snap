@@ -39,7 +39,7 @@ exports[`Snapshot 1`] = `
         "Handler": "index.handler",
         "Layers": [
           {
-            "Ref": "NextJsNoCacheFilesDeploymentAwsCliLayer54FEFCAB",
+            "Ref": "NextJsStaticFilesDeploymentAwsCliLayer41531DE7",
           },
         ],
         "Role": {
@@ -236,46 +236,6 @@ exports[`Snapshot 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "NextJsNoCacheFilesDeploymentAwsCliLayer54FEFCAB": {
-      "Properties": {
-        "Content": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
-          "S3Key": "159ab89ebd881b09102e294af7d28d2d93b12ed951fab089ece691faef1ffd44.zip",
-        },
-        "Description": "/opt/awscli/aws",
-      },
-      "Type": "AWS::Lambda::LayerVersion",
-    },
-    "NextJsNoCacheFilesDeploymentCustomResourceAB50DD80": {
-      "DeletionPolicy": "Delete",
-      "Properties": {
-        "DestinationBucketName": {
-          "Ref": "NextJsPublicAssetsS3Bucket06B7483E",
-        },
-        "Prune": false,
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
-            "Arn",
-          ],
-        },
-        "SourceBucketNames": [
-          {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
-        ],
-        "SourceObjectKeys": [
-          "828d353cff904a92ee654d770f9f6ba7f0413bd31aed38cf5e6195d06022a7cb.zip",
-        ],
-        "SystemMetadata": {
-          "cache-control": "public, max-age=0, must-revalidate",
-        },
-      },
-      "Type": "Custom::CDKBucketDeployment",
-      "UpdateReplacePolicy": "Delete",
-    },
     "NextJsPublicAssetsS3Bucket06B7483E": {
       "DeletionPolicy": "Delete",
       "Metadata": {
@@ -311,10 +271,6 @@ exports[`Snapshot 1`] = `
           },
           {
             "Key": "aws-cdk:cr-owned:8f4c4aaf",
-            "Value": "true",
-          },
-          {
-            "Key": "aws-cdk:cr-owned:e3ed71ed",
             "Value": "true",
           },
         ],
@@ -457,7 +413,7 @@ exports[`Snapshot 1`] = `
           },
         ],
         "SourceObjectKeys": [
-          "67579fb9648bf52c0eec299d953d4a7dbaf4aeab9c010bb6c92a3cb8f4ea24af.zip",
+          "72aa5f3a737aec66e5ff385ecd3d381a65154419d842537917a6669c0ceed3f8.zip",
         ],
         "SystemMetadata": {
           "cache-control": "public, max-age=31536000, immutable",
