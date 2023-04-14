@@ -10,6 +10,10 @@ exports[`Snapshot 1`] = `
           "reason": "Change later to own policy",
         },
         {
+          "id": "AwsSolutions-CFR3",
+          "reason": "Save money and disable access logging",
+        },
+        {
           "id": "AwsSolutions-IAM5",
           "reason": "Change later to stop using wildcard",
         },

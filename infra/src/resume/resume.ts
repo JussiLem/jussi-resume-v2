@@ -40,6 +40,12 @@ export class NextJsServerless extends Construct {
       cacheControl: [deploy.CacheControl.fromString('public, max-age=31536000, immutable')],
       prune: false,
     });
+    this.cloudFrontFunction = new cloudfront.Function(this, 'FormatRequestLambda', {
+      comment: 'Formats path for S3',
+      code: cloudfront.FunctionCode.fromFile({
+        filePath: 'functions/format-request.js',
+      }),
+    });
 
     this.distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultBehavior: {
@@ -58,12 +64,7 @@ export class NextJsServerless extends Construct {
         functionAssociations: [
           {
             eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
-            function: new cloudfront.Function(this, 'FormatRequestLambda', {
-              comment: 'Formats path for S3',
-              code: cloudfront.FunctionCode.fromFile({
-                filePath: 'functions/format-request.js',
-              }),
-            }),
+            function: this.cloudFrontFunction,
           },
         ],
       },
@@ -94,6 +95,9 @@ export class Resume extends Stack {
       certificateArn: props.certificateArn,
     });
     NagSuppressions.addStackSuppressions(this, [{ id: 'AwsSolutions-IAM4', reason: 'Change later to own policy' }]);
+    NagSuppressions.addStackSuppressions(this, [
+      { id: 'AwsSolutions-CFR3', reason: 'Save money and disable access logging' },
+    ]);
     NagSuppressions.addStackSuppressions(this, [
       { id: 'AwsSolutions-IAM5', reason: 'Change later to stop using wildcard' },
     ]);
