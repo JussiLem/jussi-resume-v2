@@ -35,7 +35,7 @@ export class NextJsServerless extends Construct {
     // });
 
     new deploy.BucketDeployment(this, 'StaticFilesDeployment', {
-      sources: [deploy.Source.asset('../.next')],
+      sources: [deploy.Source.asset('../out')],
       destinationBucket: this.s3Bucket,
       cacheControl: [deploy.CacheControl.fromString('public, max-age=31536000, immutable')],
       prune: false,

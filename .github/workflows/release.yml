@@ -90,7 +90,9 @@ jobs:
         run: npm ci
         working-directory: infra
       - name: Build frontend
-        run: npm install && npx projen build
+        env:
+          CI: "true"
+        run: npm install && npx projen build && npx projen export
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -112,6 +114,7 @@ jobs:
         run: cd infra && npx cdk synth certificate && npx cdk deploy certificate
       - name: Deploy Resume
         env:
+          CI: "true"
           CDK_DEFAULT_REGION: ${{ secrets.CDK_DEFAULT_REGION }}
           CDK_DEFAULT_ACCOUNT: ${{ secrets.CDK_DEFAULT_ACCOUNT }}
           CERTIFICATE_ARN: ${{ secrets.CERTIFICATE_ARN }}

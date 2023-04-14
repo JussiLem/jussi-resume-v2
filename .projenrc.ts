@@ -101,7 +101,7 @@ project.eslint?.addOverride({
     ],
   },
 });
-project.gitignore.addPatterns('.idea/');
+project.gitignore.addPatterns('.idea/', 'out/');
 
 new awscdk.AwsCdkTypeScriptApp({
   parent: project,
@@ -163,7 +163,10 @@ const jobDefinition: github.workflows.Job = {
 };
 jobDefinition.steps.push({
   name: 'Build frontend',
-  run: 'npm install && npx projen build',
+  env: {
+    CI: 'true',
+  },
+  run: 'npm install && npx projen build && npx projen export',
 });
 
 jobDefinition.steps.push({
@@ -202,6 +205,7 @@ jobDefinition.steps.push({
   workingDirectory: 'infra',
   run: 'npx cdk synth resume && npx cdk deploy resume --require-approval never',
   env: {
+    CI: 'true',
     CDK_DEFAULT_REGION: '${{ secrets.CDK_DEFAULT_REGION }}',
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
     CERTIFICATE_ARN: '${{ secrets.CERTIFICATE_ARN }}',
