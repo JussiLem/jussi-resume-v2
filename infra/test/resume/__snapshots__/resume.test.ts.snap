@@ -236,6 +236,204 @@ exports[`Snapshot 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
+    "NextJsDefaultCachePolicyB648229B": {
+      "Properties": {
+        "CachePolicyConfig": {
+          "DefaultTTL": 2,
+          "MaxTTL": 600,
+          "MinTTL": 2,
+          "Name": {
+            "Fn::Join": [
+              "",
+              [
+                "testNextJsDefaultCachePolicy8F4A0CF5-",
+                {
+                  "Ref": "AWS::Region",
+                },
+              ],
+            ],
+          },
+          "ParametersInCacheKeyAndForwardedToOrigin": {
+            "CookiesConfig": {
+              "CookieBehavior": "none",
+            },
+            "EnableAcceptEncodingBrotli": true,
+            "EnableAcceptEncodingGzip": true,
+            "HeadersConfig": {
+              "HeaderBehavior": "none",
+            },
+            "QueryStringsConfig": {
+              "QueryStringBehavior": "none",
+            },
+          },
+        },
+      },
+      "Type": "AWS::CloudFront::CachePolicy",
+    },
+    "NextJsDistributionDB2DBAE8": {
+      "Properties": {
+        "DistributionConfig": {
+          "Aliases": [
+            "jussilemmetyinen.fi",
+          ],
+          "CacheBehaviors": [
+            {
+              "AllowedMethods": [
+                "GET",
+                "HEAD",
+                "OPTIONS",
+              ],
+              "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+              "Compress": true,
+              "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
+              "PathPattern": "_next/*",
+              "ResponseHeadersPolicyId": "67f7725c-6f97-4210-82d7-5512b31e9d03",
+              "TargetOriginId": "testNextJsDistributionOrigin2325002D0",
+              "ViewerProtocolPolicy": "redirect-to-https",
+            },
+          ],
+          "DefaultCacheBehavior": {
+            "AllowedMethods": [
+              "GET",
+              "HEAD",
+              "OPTIONS",
+            ],
+            "CachePolicyId": {
+              "Ref": "NextJsDefaultCachePolicyB648229B",
+            },
+            "Compress": true,
+            "FunctionAssociations": [
+              {
+                "EventType": "viewer-request",
+                "FunctionARN": {
+                  "Fn::GetAtt": [
+                    "NextJsFormatRequestLambda9F6134BC",
+                    "FunctionARN",
+                  ],
+                },
+              },
+            ],
+            "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
+            "ResponseHeadersPolicyId": "67f7725c-6f97-4210-82d7-5512b31e9d03",
+            "TargetOriginId": "testNextJsDistributionOrigin1A5CFF173",
+            "ViewerProtocolPolicy": "redirect-to-https",
+          },
+          "Enabled": true,
+          "HttpVersion": "http2",
+          "IPV6Enabled": true,
+          "Origins": [
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "NextJsPublicAssetsS3Bucket06B7483E",
+                  "RegionalDomainName",
+                ],
+              },
+              "Id": "testNextJsDistributionOrigin1A5CFF173",
+              "S3OriginConfig": {
+                "OriginAccessIdentity": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "origin-access-identity/cloudfront/",
+                      {
+                        "Ref": "NextJsDistributionOrigin1S3Origin02D90432",
+                      },
+                    ],
+                  ],
+                },
+              },
+            },
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "NextJsPublicAssetsS3Bucket06B7483E",
+                  "RegionalDomainName",
+                ],
+              },
+              "Id": "testNextJsDistributionOrigin2325002D0",
+              "S3OriginConfig": {
+                "OriginAccessIdentity": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "origin-access-identity/cloudfront/",
+                      {
+                        "Ref": "NextJsDistributionOrigin2S3OriginA6D2CF24",
+                      },
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "PriceClass": "PriceClass_100",
+          "ViewerCertificate": {
+            "AcmCertificateArn": "arn:aws:acm:us-east-1:123456789012:certificate/feopoefwpfeopwfeopwfepoojggr-giogrge",
+            "MinimumProtocolVersion": "TLSv1.2_2021",
+            "SslSupportMethod": "sni-only",
+          },
+        },
+      },
+      "Type": "AWS::CloudFront::Distribution",
+    },
+    "NextJsDistributionOrigin1S3Origin02D90432": {
+      "Properties": {
+        "CloudFrontOriginAccessIdentityConfig": {
+          "Comment": "Identity for testNextJsDistributionOrigin1A5CFF173",
+        },
+      },
+      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+    },
+    "NextJsDistributionOrigin2S3OriginA6D2CF24": {
+      "Properties": {
+        "CloudFrontOriginAccessIdentityConfig": {
+          "Comment": "Identity for testNextJsDistributionOrigin2325002D0",
+        },
+      },
+      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+    },
+    "NextJsFormatRequestLambda9F6134BC": {
+      "Properties": {
+        "AutoPublish": true,
+        "FunctionCode": "/***
+ * Append index.html or .html to the request path so that it matches the object inside S3
+ * @param event
+ */
+const handler = (event) => {
+  const { request } = event;
+  const { uri } = request;
+  if (uri === '/') {
+    // turns "/" to "/index.html"
+    request.uri += 'index.html';
+  } else if (uri.endsWith('/')) {
+    // turns "/foo/" to "/foo.html"
+    request.uri = uri.slice(0, -1) + '.html';
+  } else if (!uri.includes('.')) {
+    // turns "/foo" to "/foo.html"
+    request.uri += '.html';
+  }
+  return request;
+};
+",
+        "FunctionConfig": {
+          "Comment": "Formats path for S3",
+          "Runtime": "cloudfront-js-1.0",
+        },
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Ref": "AWS::Region",
+              },
+              "testNextJsFormatRequestLambda2E245C40",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::CloudFront::Function",
+    },
     "NextJsPublicAssetsS3Bucket06B7483E": {
       "DeletionPolicy": "Delete",
       "Metadata": {
@@ -375,6 +573,58 @@ exports[`Snapshot 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": {
+                "CanonicalUser": {
+                  "Fn::GetAtt": [
+                    "NextJsDistributionOrigin1S3Origin02D90432",
+                    "S3CanonicalUserId",
+                  ],
+                },
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "NextJsPublicAssetsS3Bucket06B7483E",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": {
+                "CanonicalUser": {
+                  "Fn::GetAtt": [
+                    "NextJsDistributionOrigin2S3OriginA6D2CF24",
+                    "S3CanonicalUserId",
+                  ],
+                },
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "NextJsPublicAssetsS3Bucket06B7483E",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
             },
           ],
           "Version": "2012-10-17",

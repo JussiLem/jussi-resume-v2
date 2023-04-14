@@ -5,7 +5,7 @@ import { Resume } from '../../src/resume';
 test('Snapshot', () => {
   const app = new App();
   const stack = new Resume(app, 'test', {
-    nextStaticDir: '../.next',
+    certificateArn: 'arn:aws:acm:us-east-1:123456789012:certificate/feopoefwpfeopwfeopwfepoojggr-giogrge',
   });
 
   const template = Template.fromStack(stack);

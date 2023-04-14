@@ -1,11 +1,7 @@
-import { join } from 'path';
 import { App, Aspects } from 'aws-cdk-lib';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { env } from './common';
 import * as resume from './resume';
-
-const nextPath = join(__dirname, '../.next');
-// const outputPath = join(nextPath, '/build');
 
 // for development, use account/region from cdk cli
 const devEnv = {
@@ -23,6 +19,6 @@ new resume.Certificate(app, 'certificate', {
   },
   domainName: env('DOMAIN_NAME'),
 });
-new resume.Resume(app, 'resume', { env: devEnv, nextStaticDir: nextPath });
+new resume.Resume(app, 'resume', { env: devEnv, certificateArn: env('CERTIFICATE_ARN') });
 
 app.synth();

@@ -2,7 +2,7 @@
  * Append index.html or .html to the request path so that it matches the object inside S3
  * @param event
  */
-const handler = (event: AWSCloudFrontFunction.Event): AWSCloudFrontFunction.Request => {
+const handler = (event) => {
   const { request } = event;
   const { uri } = request;
   if (uri === '/') {
