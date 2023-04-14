@@ -10,10 +10,6 @@ exports[`Snapshot 1`] = `
           "reason": "Change later to own policy",
         },
         {
-          "id": "AwsSolutions-CFR3",
-          "reason": "Save money and disable access logging",
-        },
-        {
           "id": "AwsSolutions-IAM5",
           "reason": "Change later to stop using wildcard",
         },
@@ -306,17 +302,6 @@ exports[`Snapshot 1`] = `
               "Ref": "NextJsDefaultCachePolicyB648229B",
             },
             "Compress": true,
-            "FunctionAssociations": [
-              {
-                "EventType": "viewer-request",
-                "FunctionARN": {
-                  "Fn::GetAtt": [
-                    "NextJsFormatRequestLambda9F6134BC",
-                    "FunctionARN",
-                  ],
-                },
-              },
-            ],
             "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
             "ResponseHeadersPolicyId": "67f7725c-6f97-4210-82d7-5512b31e9d03",
             "TargetOriginId": "testNextJsDistributionOrigin1A5CFF173",
@@ -325,6 +310,14 @@ exports[`Snapshot 1`] = `
           "Enabled": true,
           "HttpVersion": "http2",
           "IPV6Enabled": true,
+          "Logging": {
+            "Bucket": {
+              "Fn::GetAtt": [
+                "NextJsLogBucketS3BucketDF8FFB98",
+                "RegionalDomainName",
+              ],
+            },
+          },
           "Origins": [
             {
               "DomainName": {
@@ -405,8 +398,8 @@ exports[`Snapshot 1`] = `
  * @param event
  */
 function handler(event) {
-    var {request} = event;
-    var {uri} = request;
+    var request = event.request;
+    var uri = request.uri;
     if (uri === '/') {
         // turns "/" to "/index.html"
         request.uri += 'index.html';
@@ -437,6 +430,138 @@ function handler(event) {
         },
       },
       "Type": "AWS::CloudFront::Function",
+    },
+    "NextJsLogBucketS3BucketAutoDeleteObjectsCustomResource7E140EBB": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "NextJsLogBucketS3BucketPolicy7C2CAD85",
+      ],
+      "Properties": {
+        "BucketName": {
+          "Ref": "NextJsLogBucketS3BucketDF8FFB98",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::S3AutoDeleteObjects",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "NextJsLogBucketS3BucketDF8FFB98": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+        "Tags": [
+          {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true",
+          },
+        ],
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "NextJsLogBucketS3BucketPolicy7C2CAD85": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "NextJsLogBucketS3BucketDF8FFB98",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "NextJsLogBucketS3BucketDF8FFB98",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "NextJsLogBucketS3BucketDF8FFB98",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn",
+                  ],
+                },
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "NextJsLogBucketS3BucketDF8FFB98",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "NextJsLogBucketS3BucketDF8FFB98",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
     },
     "NextJsPublicAssetsS3Bucket06B7483E": {
       "DeletionPolicy": "Delete",

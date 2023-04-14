@@ -3,8 +3,8 @@
  * @param event
  */
 function handler(event) {
-    var {request} = event;
-    var {uri} = request;
+    var request = event.request;
+    var uri = request.uri;
     if (uri === '/') {
         // turns "/" to "/index.html"
         request.uri += 'index.html';

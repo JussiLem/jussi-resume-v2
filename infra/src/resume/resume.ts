@@ -48,6 +48,7 @@ export class NextJsServerless extends Construct {
     });
 
     this.distribution = new cloudfront.Distribution(this, 'Distribution', {
+      logBucket: buildS3Bucket(this, undefined, 'LogBucket'),
       defaultBehavior: {
         origin: new origins.S3Origin(this.s3Bucket),
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
@@ -61,12 +62,12 @@ export class NextJsServerless extends Construct {
         }),
         responseHeadersPolicy: cloudfront.ResponseHeadersPolicy.SECURITY_HEADERS,
         originRequestPolicy: cloudfront.OriginRequestPolicy.CORS_S3_ORIGIN,
-        functionAssociations: [
-          {
-            eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
-            function: this.cloudFrontFunction,
-          },
-        ],
+        // functionAssociations: [
+        //   {
+        //     eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+        //     function: this.cloudFrontFunction,
+        //   },
+        // ],
       },
       additionalBehaviors: {
         '_next/*': {
@@ -95,9 +96,6 @@ export class Resume extends Stack {
       certificateArn: props.certificateArn,
     });
     NagSuppressions.addStackSuppressions(this, [{ id: 'AwsSolutions-IAM4', reason: 'Change later to own policy' }]);
-    NagSuppressions.addStackSuppressions(this, [
-      { id: 'AwsSolutions-CFR3', reason: 'Save money and disable access logging' },
-    ]);
     NagSuppressions.addStackSuppressions(this, [
       { id: 'AwsSolutions-IAM5', reason: 'Change later to stop using wildcard' },
     ]);
