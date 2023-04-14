@@ -405,8 +405,8 @@ exports[`Snapshot 1`] = `
  * @param event
  */
 function handler(event) {
-    const {request} = event;
-    const {uri} = request;
+    var {request} = event;
+    var {uri} = request;
     if (uri === '/') {
         // turns "/" to "/index.html"
         request.uri += 'index.html';
@@ -667,7 +667,7 @@ function handler(event) {
           },
         ],
         "SourceObjectKeys": [
-          "72aa5f3a737aec66e5ff385ecd3d381a65154419d842537917a6669c0ceed3f8.zip",
+          "c63a18848c94fd0436c95c02d84f06defd1fedcd7e1ecc753459a9c51e655bdd.zip",
         ],
         "SystemMetadata": {
           "cache-control": "public, max-age=31536000, immutable",
