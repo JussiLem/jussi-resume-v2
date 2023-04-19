@@ -48,7 +48,6 @@ export class NextJsServerless extends Construct {
     });
 
     this.distribution = new cloudfront.Distribution(this, 'Distribution', {
-      logBucket: buildS3Bucket(this, undefined, 'LogBucket'),
       defaultBehavior: {
         origin: new origins.S3Origin(this.s3Bucket),
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
