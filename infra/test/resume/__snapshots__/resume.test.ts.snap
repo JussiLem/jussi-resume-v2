@@ -6,6 +6,10 @@ exports[`Snapshot 1`] = `
     "cdk_nag": {
       "rules_to_suppress": [
         {
+          "id": "AwsSolutions-CFR3",
+          "reason": "Save money",
+        },
+        {
           "id": "AwsSolutions-IAM4",
           "reason": "Change later to own policy",
         },
