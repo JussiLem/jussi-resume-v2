@@ -24,11 +24,11 @@ const TimelineExperienceItem: FC<{ work: TimelineItem }> = memo(({ work }) => {
   );
 });
 
-const ExperienceItems: FC<{ key: string; items: TimelineItem[] }> = memo(({ key, items }) => {
+const ExperienceItems: FC<{ location: string; items: TimelineItem[] }> = memo(({ location, items }) => {
   return (
     <div className="pb-8 text-center last:pb-0 md:text-left">
       <div className="col-span-1 pb-4">
-        <h2 className="text-xl font-bold pb-1">{key}</h2>
+        <h2 className="text-xl font-bold pb-1">{location}</h2>
         {items.map(work => (
           <TimelineExperienceItem work={work} />
         ))}
@@ -48,7 +48,7 @@ const Resume: FC<{
       <div className="flex-col divide-y-2 divide-neutral-300">
         <ResumeSection title="Experience">
           {Object.entries(experience).map(([key, items]) => (
-            <ExperienceItems key={key} items={items} />
+            <ExperienceItems key={key} location={key} items={items} />
           ))}
         </ResumeSection>
         <ResumeSection title="Education">
