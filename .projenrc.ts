@@ -165,6 +165,7 @@ jobDefinition.steps.push({
   name: 'Build frontend',
   env: {
     CI: 'true',
+    DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
   },
   run: 'npm install && npx projen build && npx projen export',
 });

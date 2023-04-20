@@ -27,7 +27,7 @@ import GithubIcon from '../components/Icon/GithubIcon';
  */
 export const homePageMeta: HomepageMeta = {
   title: 'Jussi Resume',
-  description: "Example site built with Tim Baker's react resume template",
+  description: "Site built with Tim Baker's react resume template",
 };
 
 /**

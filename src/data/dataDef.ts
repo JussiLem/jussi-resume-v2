@@ -12,6 +12,7 @@ export type ResumeData = {
 export interface HomepageMeta {
   title: string;
   description: string;
+  domainName?: string;
   ogImageUrl?: string;
   twitterCardType?: 'summary' | 'summary_large';
   twitterTitle?: string;
