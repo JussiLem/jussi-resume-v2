@@ -322,6 +322,15 @@ exports[`Snapshot 1`] = `
             "Compress": true,
             "FunctionAssociations": [
               {
+                "EventType": "viewer-request",
+                "FunctionARN": {
+                  "Fn::GetAtt": [
+                    "NextJsFormatRequestLambda9F6134BC",
+                    "FunctionARN",
+                  ],
+                },
+              },
+              {
                 "EventType": "viewer-response",
                 "FunctionARN": {
                   "Fn::GetAtt": [

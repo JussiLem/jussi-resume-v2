@@ -67,10 +67,10 @@ export class NextJsServerless extends Construct {
         responseHeadersPolicy: cloudfront.ResponseHeadersPolicy.SECURITY_HEADERS,
         originRequestPolicy: cloudfront.OriginRequestPolicy.CORS_S3_ORIGIN,
         functionAssociations: [
-          // {
-          //   eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
-          //   function: this.cloudFrontFunction,
-          // },
+          {
+            eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+            function: this.cloudFrontFunction,
+          },
           {
             function: cfFunction,
             eventType: cloudfront.FunctionEventType.VIEWER_RESPONSE,
