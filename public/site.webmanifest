@@ -1,0 +1,7 @@
+{
+  "name": "jussi-resume",
+  "short_name": "jussi-resume",
+  "theme_color": "#515455",
+  "background_color": "#515455",
+  "display": "standalone"
+}
