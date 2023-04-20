@@ -14,7 +14,7 @@ export default () => (
           - https://bugs.chromium.org/p/chromium/issues/detail?id=872770 */}
       <meta content="notranslate" name="google" />
     </Head>
-    <body className="bg-black">
+    <body className={'bg-white dark:bg-slate-800'}>
       <Main />
       <NextScript />
     </body>

@@ -44,7 +44,7 @@ const Resume: FC<{
   skills: any[];
 }> = memo(({ experience, certs, education, skills }) => {
   return (
-    <Section className="bg-neutral-100" sectionId={SectionId.Resume}>
+    <Section className="dark:text-white" sectionId={SectionId.Resume}>
       <div className="flex-col divide-y-2 divide-neutral-300">
         <ResumeSection title="Experience">
           {Object.entries(experience).map(([key, items]) => (
