@@ -92,6 +92,7 @@ jobs:
       - name: Build frontend
         env:
           CI: "true"
+          DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
         run: npm install && npx projen build && npx projen export
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
