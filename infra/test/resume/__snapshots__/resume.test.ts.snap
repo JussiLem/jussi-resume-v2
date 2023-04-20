@@ -2,6 +2,16 @@
 
 exports[`Snapshot 1`] = `
 {
+  "Mappings": {
+    "AWSCloudFrontPartitionHostedZoneIdMap": {
+      "aws": {
+        "zoneId": "Z2FDTNDATAQYW2",
+      },
+      "aws-cn": {
+        "zoneId": "Z3RFFRIM2A3IF5",
+      },
+    },
+  },
   "Metadata": {
     "cdk_nag": {
       "rules_to_suppress": [
@@ -35,9 +45,7 @@ exports[`Snapshot 1`] = `
       ],
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-eu-west-1",
           "S3Key": "de91205450df70f943fbde8ad6f4eec685d4c82c11ddec668199a8d2ec4d7065.zip",
         },
         "Handler": "index.handler",
@@ -108,10 +116,7 @@ exports[`Snapshot 1`] = `
                       {
                         "Ref": "AWS::Partition",
                       },
-                      ":s3:::",
-                      {
-                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-                      },
+                      ":s3:::cdk-hnb659fds-assets-123456789012-eu-west-1",
                     ],
                   ],
                 },
@@ -123,11 +128,7 @@ exports[`Snapshot 1`] = `
                       {
                         "Ref": "AWS::Partition",
                       },
-                      ":s3:::",
-                      {
-                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-                      },
-                      "/*",
+                      ":s3:::cdk-hnb659fds-assets-123456789012-eu-west-1/*",
                     ],
                   ],
                 },
@@ -188,9 +189,7 @@ exports[`Snapshot 1`] = `
       ],
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-eu-west-1",
           "S3Key": "40aa87cdf43c4095cec18bc443965f22ab2f8c1ace47e482a0ba4e35d83b0cc9.zip",
         },
         "Description": {
@@ -240,23 +239,38 @@ exports[`Snapshot 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
+    "NextJsAliasRecord54796A24": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "NextJsDistributionDB2DBAE8",
+              "DomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::FindInMap": [
+              "AWSCloudFrontPartitionHostedZoneIdMap",
+              {
+                "Ref": "AWS::Partition",
+              },
+              "zoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "DUMMY",
+        "Name": "DomainName.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
     "NextJsDefaultCachePolicyB648229B": {
       "Properties": {
         "CachePolicyConfig": {
           "DefaultTTL": 2,
           "MaxTTL": 600,
           "MinTTL": 2,
-          "Name": {
-            "Fn::Join": [
-              "",
-              [
-                "testNextJsDefaultCachePolicy8F4A0CF5-",
-                {
-                  "Ref": "AWS::Region",
-                },
-              ],
-            ],
-          },
+          "Name": "testNextJsDefaultCachePolicy8F4A0CF5-eu-west-1",
           "ParametersInCacheKeyAndForwardedToOrigin": {
             "CookiesConfig": {
               "CookieBehavior": "none",
@@ -306,6 +320,17 @@ exports[`Snapshot 1`] = `
               "Ref": "NextJsDefaultCachePolicyB648229B",
             },
             "Compress": true,
+            "FunctionAssociations": [
+              {
+                "EventType": "viewer-response",
+                "FunctionARN": {
+                  "Fn::GetAtt": [
+                    "NextJsSetHttpSecurityHeaders0913A58B",
+                    "FunctionARN",
+                  ],
+                },
+              },
+            ],
             "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf",
             "ResponseHeadersPolicyId": "67f7725c-6f97-4210-82d7-5512b31e9d03",
             "TargetOriginId": "testNextJsDistributionOrigin1A5CFF173",
@@ -413,17 +438,7 @@ function handler(event) {
           "Comment": "Formats path for S3",
           "Runtime": "cloudfront-js-1.0",
         },
-        "Name": {
-          "Fn::Join": [
-            "",
-            [
-              {
-                "Ref": "AWS::Region",
-              },
-              "testNextJsFormatRequestLambda2E245C40",
-            ],
-          ],
-        },
+        "Name": "eu-west-1testNextJsFormatRequestLambda2E245C40",
       },
       "Type": "AWS::CloudFront::Function",
     },
@@ -625,12 +640,22 @@ function handler(event) {
       },
       "Type": "AWS::S3::BucketPolicy",
     },
+    "NextJsSetHttpSecurityHeaders0913A58B": {
+      "Properties": {
+        "AutoPublish": true,
+        "FunctionCode": "function handler(event) { var response = event.response;       var headers = response.headers;       headers['strict-transport-security'] = { value: 'max-age=63072000; includeSubdomains; preload'};       headers['content-security-policy'] = { value: "default-src 'none'; img-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'"};       headers['x-content-type-options'] = { value: 'nosniff'};       headers['x-frame-options'] = {value: 'DENY'};       headers['x-xss-protection'] = {value: '1; mode=block'};       return response;     }",
+        "FunctionConfig": {
+          "Comment": "SetHttpSecurityHeadersc84c01472adfa6b413cbc83ebd28eb6eafc77cdd0c",
+          "Runtime": "cloudfront-js-1.0",
+        },
+        "Name": "SetHttpSecurityHeadersc84c01472adfa6b413cbc83ebd28eb6eafc77cdd0c",
+      },
+      "Type": "AWS::CloudFront::Function",
+    },
     "NextJsStaticFilesDeploymentAwsCliLayer41531DE7": {
       "Properties": {
         "Content": {
-          "S3Bucket": {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-eu-west-1",
           "S3Key": "159ab89ebd881b09102e294af7d28d2d93b12ed951fab089ece691faef1ffd44.zip",
         },
         "Description": "/opt/awscli/aws",
@@ -651,9 +676,7 @@ function handler(event) {
           ],
         },
         "SourceBucketNames": [
-          {
-            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
-          },
+          "cdk-hnb659fds-assets-123456789012-eu-west-1",
         ],
         "SourceObjectKeys": [
           "c63a18848c94fd0436c95c02d84f06defd1fedcd7e1ecc753459a9c51e655bdd.zip",

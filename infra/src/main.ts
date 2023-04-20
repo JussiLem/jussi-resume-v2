@@ -8,6 +8,8 @@ const devEnv = {
   account: env('CDK_DEFAULT_ACCOUNT'),
   region: env('CDK_DEFAULT_REGION'),
 };
+const domainName = env('DOMAIN_NAME');
+const certificateArn = env('CERTIFICATE_ARN');
 
 const app = new App();
 Aspects.of(app).add(new AwsSolutionsChecks());
@@ -17,8 +19,8 @@ new resume.Certificate(app, 'certificate', {
     account: devEnv.account,
     region: 'us-east-1',
   },
-  domainName: env('DOMAIN_NAME'),
+  domainName,
 });
-new resume.Resume(app, 'resume', { env: devEnv, certificateArn: env('CERTIFICATE_ARN') });
+new resume.Resume(app, 'resume', { env: devEnv, certificateArn, domainName });
 
 app.synth();

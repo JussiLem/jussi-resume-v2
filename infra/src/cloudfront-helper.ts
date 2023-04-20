@@ -1,7 +1,7 @@
 import { aws_cloudfront as cloudfront } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-const defaultCloudfrontFunction = (scope: Construct): cloudfront.Function => {
+export const defaultCloudfrontFunction = (scope: Construct): cloudfront.Function => {
   // generate a stable unique id for the cloudfront function and use it
   // both for the function name and the logical id of the function so if
   // it is changed the function will be recreated.
@@ -22,17 +22,4 @@ const defaultCloudfrontFunction = (scope: Construct): cloudfront.Function => {
     }",
     ),
   });
-};
-
-const getCloudfrontFunction = (httpSecurityHeaders: boolean, scope: Construct) =>
-  httpSecurityHeaders ? defaultCloudfrontFunction(scope) : undefined;
-
-export const CloudFrontDistributionForS3 = (
-  scope: Construct,
-  // sourceBucket: s3.IBucket,
-  // cloudFrontDistributionProps?: cloudfront.DistributionProps | any,
-  httpSecurityHeaders: boolean = true,
-  // originPath?: string,
-) => {
-  getCloudfrontFunction(httpSecurityHeaders, scope);
 };

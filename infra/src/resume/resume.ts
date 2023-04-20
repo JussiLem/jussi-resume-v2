@@ -4,16 +4,20 @@ import {
   aws_certificatemanager as cm,
   aws_s3 as s3,
   aws_s3_deployment as deploy,
+  aws_route53 as route53,
+  aws_route53_targets as targets,
   Duration,
   Stack,
   StackProps,
 } from 'aws-cdk-lib';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+import { defaultCloudfrontFunction } from '../cloudfront-helper';
 import { buildS3Bucket } from '../s3-bucket-helper';
 
 type NextJsServerlessProps = {
   certificateArn: string;
+  domainName: string;
 };
 
 export class NextJsServerless extends Construct {
@@ -21,6 +25,7 @@ export class NextJsServerless extends Construct {
   public readonly cloudFrontFunction?: cloudfront.Function;
   // public readonly s3BucketInterface: s3.IBucket;
   public readonly s3Bucket?: s3.Bucket;
+  public readonly aRecord: route53.ARecord;
 
   constructor(scope: Construct, id: string, props: NextJsServerlessProps) {
     super(scope, id);
@@ -46,7 +51,7 @@ export class NextJsServerless extends Construct {
         filePath: 'functions/format-request.js',
       }),
     });
-
+    const cfFunction = defaultCloudfrontFunction(this);
     this.distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultBehavior: {
         origin: new origins.S3Origin(this.s3Bucket),
@@ -61,12 +66,16 @@ export class NextJsServerless extends Construct {
         }),
         responseHeadersPolicy: cloudfront.ResponseHeadersPolicy.SECURITY_HEADERS,
         originRequestPolicy: cloudfront.OriginRequestPolicy.CORS_S3_ORIGIN,
-        // functionAssociations: [
-        //   {
-        //     eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
-        //     function: this.cloudFrontFunction,
-        //   },
-        // ],
+        functionAssociations: [
+          // {
+          //   eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+          //   function: this.cloudFrontFunction,
+          // },
+          {
+            function: cfFunction,
+            eventType: cloudfront.FunctionEventType.VIEWER_RESPONSE,
+          },
+        ],
       },
       additionalBehaviors: {
         '_next/*': {
@@ -82,17 +91,25 @@ export class NextJsServerless extends Construct {
       domainNames: ['jussilemmetyinen.fi'],
       certificate: cm.Certificate.fromCertificateArn(this, 'id', props.certificateArn),
     });
+    this.aRecord = new route53.ARecord(this, 'AliasRecord', {
+      zone: route53.HostedZone.fromLookup(this, 'HostedZone', {
+        domainName: props.domainName,
+      }),
+      target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(this.distribution)),
+    });
   }
 }
 
 type ResumeProps = {
   certificateArn: string;
+  domainName: string;
 } & StackProps;
 export class Resume extends Stack {
   constructor(scope: Construct, id: string, props: ResumeProps) {
     super(scope, id, props);
     new NextJsServerless(this, 'NextJs', {
       certificateArn: props.certificateArn,
+      domainName: props.domainName,
     });
     NagSuppressions.addStackSuppressions(this, [{ id: 'AwsSolutions-CFR3', reason: 'Save money' }]);
     NagSuppressions.addStackSuppressions(this, [{ id: 'AwsSolutions-IAM4', reason: 'Change later to own policy' }]);
