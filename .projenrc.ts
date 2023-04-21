@@ -50,6 +50,7 @@ const project = new web.NextJsTypeScriptProject({
     'ts-pattern@^4.0.3',
     '@headlessui/react@1.7.13',
     '@heroicons/react@^1.0.6',
+    'aws-amplify',
   ],
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: [
@@ -166,6 +167,10 @@ jobDefinition.steps.push({
   env: {
     CI: 'true',
     DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
+    DEFAULT_REGION: '${{ secrets.CDK_DEFAULT_REGION }}',
+    IDENTITY_POOL_ID: '${{ secrets.IDENTITY_POOL_ID }}',
+    USER_POOL_ID: '${{ secrets.USER_POOL_ID }}',
+    USER_POOL_WEB_CLIENT_ID: '${{ secrets.USER_POOL_WEB_CLIENT_ID }}',
   },
   run: 'npm install && npx projen build && npx projen export',
 });
