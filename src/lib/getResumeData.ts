@@ -29,7 +29,7 @@ export const getResumeData: () => Promise<ResumeData> = async () => {
       skills: JSON.parse(JSON.stringify(skls)) as SkillGroup[],
     };
   } catch (e) {
-    console.log(e)
+    console.log(e);
     throw Error(`Unable to fetch data: ${e}`);
   }
 };
