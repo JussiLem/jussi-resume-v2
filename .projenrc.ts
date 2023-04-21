@@ -1,4 +1,4 @@
-import { awscdk, github, javascript, web } from 'projen';
+import { awscdk, github, javascript, web, cdk } from 'projen';
 
 const project = new web.NextJsTypeScriptProject({
   defaultReleaseBranch: 'main',
@@ -130,6 +130,18 @@ new awscdk.AwsCdkTypeScriptApp({
       arrowParens: javascript.ArrowParens.AVOID,
     },
   },
+});
+
+new cdk.JsiiProject({
+  parent: project,
+  name: 'get-resume',
+  author: 'Jussi',
+  authorAddress: 'jussi.lem@gmail.com',
+  defaultReleaseBranch: 'main',
+  outdir: 'functions/get-resume',
+  repositoryUrl: 'https://github.com/JussiLem/jussi-resume-v2',
+  packageManager: javascript.NodePackageManager.NPM,
+  sampleCode: false,
 });
 
 const jobDefinition: github.workflows.Job = {
