@@ -93,6 +93,10 @@ jobs:
         env:
           CI: "true"
           DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
+          DEFAULT_REGION: ${{ secrets.CDK_DEFAULT_REGION }}
+          IDENTITY_POOL_ID: ${{ secrets.IDENTITY_POOL_ID }}
+          USER_POOL_ID: ${{ secrets.USER_POOL_ID }}
+          USER_POOL_WEB_CLIENT_ID: ${{ secrets.USER_POOL_WEB_CLIENT_ID }}
         run: npm install && npx projen build && npx projen export
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
