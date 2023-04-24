@@ -15,6 +15,7 @@
     "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
     "release": "npx projen release",
+    "release:backend": "npx projen release:backend",
     "server": "npx projen server",
     "telemetry": "npx projen telemetry",
     "test": "npx projen test",
