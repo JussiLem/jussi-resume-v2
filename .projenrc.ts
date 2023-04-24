@@ -74,7 +74,10 @@ const project = new web.NextJsTypeScriptProject({
   // packageName: undefined,  /* The "name" in package.json. */
   tailwind: false,
 });
-
+project.release?.addBranch('backend', {
+  majorVersion: 0,
+  tagPrefix: 'test',
+});
 project.eslint?.addPlugins('react-memo', 'react-hooks', 'simple-import-sort');
 project.eslint?.addExtends('plugin:@next/next/recommended');
 project.eslint?.addOverride({
@@ -102,14 +105,19 @@ project.eslint?.addOverride({
     ],
   },
 });
-project.gitignore.addPatterns('.idea/', 'out/', '.env.local');
+project.gitignore.addPatterns('.idea/', 'out/', '.env.local', 'functions/get-resume/cmd/output/');
 
 new awscdk.AwsCdkTypeScriptApp({
   parent: project,
   cdkVersion: '2.73.0',
   defaultReleaseBranch: 'main',
   name: 'infra',
-  deps: ['cdk-nag'],
+  deps: [
+    'cdk-nag',
+    '@aws-cdk/aws-apigatewayv2-alpha',
+    '@aws-cdk/aws-apigatewayv2-integrations-alpha',
+    '@aws-cdk/aws-apigatewayv2-authorizers-alpha',
+  ],
   devDeps: ['@types/aws-cloudfront-function@1.0.2'],
   tsconfig: {
     include: ['test/**/*.ts'],
@@ -161,10 +169,17 @@ const jobDefinition: github.workflows.Job = {
       },
     },
     {
-      name: 'Setup',
+      name: 'Setup Nodejs',
       uses: 'actions/setup-node@v3',
       with: {
         'node-version': '16.x',
+      },
+    },
+    {
+      name: 'Setup Golang',
+      uses: 'actions/setup-go@v4',
+      with: {
+        'go-version-file': 'functions/get-resume/go.mod',
       },
     },
     {
@@ -174,6 +189,13 @@ const jobDefinition: github.workflows.Job = {
     },
   ],
 };
+
+jobDefinition.steps.push({
+  name: 'Build get-resume',
+  run: 'env GOOS=linux GOARCH=amd64 go build -o output/main && zip -j output/function.zip output/main',
+  workingDirectory: 'functions/get-resume',
+});
+
 jobDefinition.steps.push({
   name: 'Build frontend',
   env: {
@@ -204,6 +226,8 @@ jobDefinition.steps.push({
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
     CERTIFICATE_ARN: '${{ secrets.CERTIFICATE_ARN }}',
     DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
+    USER_POOL_ID: '${{ secrets.USER_POOL_ID }}',
+    HOSTED_ZONE_ID: '${{ secrets.HOSTED_ZONE_ID }}',
   },
 });
 
@@ -215,6 +239,8 @@ jobDefinition.steps.push({
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
     CERTIFICATE_ARN: '${{ secrets.CERTIFICATE_ARN }}',
     DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
+    USER_POOL_ID: '${{ secrets.USER_POOL_ID }}',
+    HOSTED_ZONE_ID: '${{ secrets.HOSTED_ZONE_ID }}',
   },
 });
 
@@ -228,6 +254,8 @@ jobDefinition.steps.push({
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
     CERTIFICATE_ARN: '${{ secrets.CERTIFICATE_ARN }}',
     DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
+    USER_POOL_ID: '${{ secrets.USER_POOL_ID }}',
+    HOSTED_ZONE_ID: '${{ secrets.HOSTED_ZONE_ID }}',
   },
 });
 
