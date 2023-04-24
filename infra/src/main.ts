@@ -8,12 +8,15 @@ const app = new App();
 Aspects.of(app).add(new AwsSolutionsChecks());
 
 new resume.Certificate(app, 'certificate', {
-  domainName: props.default.domainName,
+  ...props.default,
   env: {
     account: devEnv.account,
     region: 'us-east-1',
   },
 });
-new resume.Resume(app, 'resume', props.default);
+new resume.Resume(app, 'resume', {
+  ...props.default,
+  env: devEnv,
+});
 
 app.synth();
