@@ -1,6 +1,7 @@
 import { App, Aspects } from 'aws-cdk-lib';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import * as props from './config';
+import { devEnv } from './config';
 import * as resume from './resume';
 
 const app = new App();
@@ -9,7 +10,7 @@ Aspects.of(app).add(new AwsSolutionsChecks());
 new resume.Certificate(app, 'certificate', {
   domainName: props.default.domainName,
   env: {
-    account: props.default.env!.account!,
+    account: devEnv.account,
     region: 'us-east-1',
   },
 });
