@@ -193,7 +193,7 @@ const jobDefinition: github.workflows.Job = {
 jobDefinition.steps.push({
   name: 'Build get-resume',
   run: 'env GOOS=linux GOARCH=amd64 go build -o output/main && zip -j output/function.zip output/main',
-  workingDirectory: 'functions/get-resume',
+  workingDirectory: 'functions/get-resume/cmd',
 });
 
 jobDefinition.steps.push({
