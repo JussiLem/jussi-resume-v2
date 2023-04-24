@@ -6,7 +6,13 @@ import * as resume from './resume';
 const app = new App();
 Aspects.of(app).add(new AwsSolutionsChecks());
 
-new resume.Certificate(app, 'certificate', props.default);
+new resume.Certificate(app, 'certificate', {
+  domainName: props.default.domainName,
+  env: {
+    account: props.default.env!.account!,
+    region: 'us-east-1',
+  },
+});
 new resume.Resume(app, 'resume', props.default);
 
 app.synth();
