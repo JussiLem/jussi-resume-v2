@@ -53,7 +53,7 @@ const Home: FC<{
 
 export default Home;
 
-export const getServerSideProps: () => Promise<{
+export const getStaticProps: () => Promise<{
   props: {
     resume?: ResumeData;
     error?: string;
