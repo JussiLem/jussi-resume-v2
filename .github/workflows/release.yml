@@ -95,7 +95,7 @@ jobs:
         working-directory: infra
       - name: Build get-resume
         run: env GOOS=linux GOARCH=amd64 go build -o output/main && zip -j output/function.zip output/main
-        working-directory: functions/get-resume
+        working-directory: functions/get-resume/cmd
       - name: Build frontend
         env:
           CI: "true"
