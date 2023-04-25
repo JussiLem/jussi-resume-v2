@@ -42,8 +42,7 @@ func getItemFromDb(id string) (Response, error) {
 		Key:       key,
 	})
 	if err != nil {
-		log.Printf("Failed to get item, %v", err)
-		return response, err
+		return response, fmt.Errorf("GetItem: Error happened while fetching data: %v\n", err)
 	}
 	if resp.Item == nil {
 		return response, fmt.Errorf("GetItem: Data not found.\n")
@@ -63,6 +62,7 @@ func HandleRequest(request events.APIGatewayProxyRequest) (events.APIGatewayProx
 		if id != "" {
 			itemFromDb, err := getItemFromDb(id)
 			if err != nil {
+				log.Print(fmt.Errorf("ERROR: %v", err))
 				apiResponse = events.APIGatewayProxyResponse{
 					StatusCode: 500,
 					Body:       "Failed to get data from DB",
@@ -75,13 +75,13 @@ func HandleRequest(request events.APIGatewayProxyRequest) (events.APIGatewayProx
 		} else {
 			apiResponse = events.APIGatewayProxyResponse{
 				Body:       "Error: Query Parameter name missing",
-				StatusCode: 500,
+				StatusCode: 503,
 			}
 
 		}
 		apiResponse = events.APIGatewayProxyResponse{
 			Body:       "Error: wrong Http Method used",
-			StatusCode: 500,
+			StatusCode: 503,
 		}
 	}
 	return apiResponse, nil
