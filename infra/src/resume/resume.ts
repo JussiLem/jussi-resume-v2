@@ -47,6 +47,8 @@ export class Resume extends Stack {
     new NextJsServerless(this, 'NextJs', props);
     new Api(this, 'Api', props);
     NagSuppressions.addStackSuppressions(this, [{ id: 'AwsSolutions-CFR3', reason: 'Save money' }]);
+    NagSuppressions.addStackSuppressions(this, [{ id: 'AwsSolutions-APIG1', reason: 'Save money' }]);
+    NagSuppressions.addStackSuppressions(this, [{ id: 'AwsSolutions-APIG4', reason: 'Remove after testing!' }]);
     NagSuppressions.addStackSuppressions(this, [{ id: 'AwsSolutions-IAM4', reason: 'Change later to own policy' }]);
     NagSuppressions.addStackSuppressions(this, [
       { id: 'AwsSolutions-IAM5', reason: 'Change later to stop using wildcard' },
