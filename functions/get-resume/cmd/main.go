@@ -15,6 +15,8 @@ import (
 )
 
 var client *dynamodb.Client
+var logger, _ = zap.NewProduction()
+var sugar = logger.Sugar()
 
 func init() {
 	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("eu-west-1"))
@@ -94,5 +96,6 @@ func HandleRequest(request events.APIGatewayProxyRequest) (events.APIGatewayProx
 	return apiResponse, nil
 }
 func main() {
+	sugar.Infof("Received event")
 	lambda.Start(HandleRequest)
 }
