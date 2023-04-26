@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"go.uber.org/zap"
 	"log"
 	"os"
 )
@@ -55,6 +56,12 @@ func getItemFromDb(id string) (Response, error) {
 }
 
 func HandleRequest(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	logger, err := zap.NewProduction()
+	if err != nil {
+		log.Fatal(err)
+	}
+	sugar := logger.Sugar()
+	sugar.Debugf("Received event: %v", request)
 	apiResponse := events.APIGatewayProxyResponse{}
 	switch request.HTTPMethod {
 	case "GET":
@@ -62,7 +69,7 @@ func HandleRequest(request events.APIGatewayProxyRequest) (events.APIGatewayProx
 		if id != "" {
 			itemFromDb, err := getItemFromDb(id)
 			if err != nil {
-				log.Print(fmt.Errorf("ERROR: %v", err))
+				sugar.Errorf("Error: %v", err)
 				apiResponse = events.APIGatewayProxyResponse{
 					StatusCode: 500,
 					Body:       "Failed to get data from DB",
