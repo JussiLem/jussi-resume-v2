@@ -10,21 +10,12 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"go.uber.org/zap"
-	"log"
 	"os"
 )
 
 var client *dynamodb.Client
 var logger, _ = zap.NewProduction()
 var sugar = logger.Sugar()
-
-func init() {
-	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("eu-west-1"))
-	if err != nil {
-		panic("configuration error, " + err.Error())
-	}
-	client = dynamodb.NewFromConfig(cfg)
-}
 
 type Response struct {
 	Payload string `json:"payload"`
@@ -35,6 +26,11 @@ const (
 )
 
 func getItemFromDb(id string) (Response, error) {
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(os.Getenv("AWS_REGION")))
+	if err != nil {
+		panic("configuration error, " + err.Error())
+	}
+	client = dynamodb.NewFromConfig(cfg)
 	response := Response{}
 	selectedKeys := map[string]string{
 		"PK": fmt.Sprintf(PKFormat, id),
@@ -58,11 +54,6 @@ func getItemFromDb(id string) (Response, error) {
 }
 
 func HandleRequest(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	logger, err := zap.NewProduction()
-	if err != nil {
-		log.Fatal(err)
-	}
-	sugar := logger.Sugar()
 	sugar.Debugf("Received event: %v", request)
 	apiResponse := events.APIGatewayProxyResponse{}
 	switch request.HTTPMethod {
