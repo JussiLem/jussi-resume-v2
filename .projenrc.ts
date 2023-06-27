@@ -101,7 +101,7 @@ project.eslint?.addOverride({
     ],
   },
 });
-project.gitignore.addPatterns('.idea/', 'out/');
+project.gitignore.addPatterns('.idea/', 'out/', '.env.local');
 
 new awscdk.AwsCdkTypeScriptApp({
   parent: project,
