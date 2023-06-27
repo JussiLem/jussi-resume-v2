@@ -152,6 +152,10 @@
       "type": "runtime"
     },
     {
+      "name": "aws-amplify",
+      "type": "runtime"
+    },
+    {
       "name": "classnames",
       "version": "2.3.2",
       "type": "runtime"

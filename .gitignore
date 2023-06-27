@@ -47,6 +47,9 @@ jspm_packages/
 /dist/
 !/.eslintrc.json
 /.next/
+!/.github/workflows/release-backend.yml
+!/.github/workflows/upgrade-backend.yml
 .idea/
 out/
 .env.local
+functions/get-resume/cmd/output/

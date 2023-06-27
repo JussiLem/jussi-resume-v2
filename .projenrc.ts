@@ -1,4 +1,4 @@
-import { awscdk, github, javascript, web } from 'projen';
+import { awscdk, github, javascript, web, cdk } from 'projen';
 
 const project = new web.NextJsTypeScriptProject({
   defaultReleaseBranch: 'main',
@@ -50,6 +50,7 @@ const project = new web.NextJsTypeScriptProject({
     'ts-pattern@^4.0.3',
     '@headlessui/react@1.7.13',
     '@heroicons/react@^1.0.6',
+    'aws-amplify',
   ],
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: [
@@ -73,7 +74,10 @@ const project = new web.NextJsTypeScriptProject({
   // packageName: undefined,  /* The "name" in package.json. */
   tailwind: false,
 });
-
+project.release?.addBranch('backend', {
+  majorVersion: 0,
+  tagPrefix: 'test',
+});
 project.eslint?.addPlugins('react-memo', 'react-hooks', 'simple-import-sort');
 project.eslint?.addExtends('plugin:@next/next/recommended');
 project.eslint?.addOverride({
@@ -101,14 +105,19 @@ project.eslint?.addOverride({
     ],
   },
 });
-project.gitignore.addPatterns('.idea/', 'out/', '.env.local');
+project.gitignore.addPatterns('.idea/', 'out/', '.env.local', 'functions/get-resume/cmd/output/');
 
-new awscdk.AwsCdkTypeScriptApp({
+const infraProject = new awscdk.AwsCdkTypeScriptApp({
   parent: project,
   cdkVersion: '2.73.0',
   defaultReleaseBranch: 'main',
   name: 'infra',
-  deps: ['cdk-nag'],
+  deps: [
+    'cdk-nag',
+    '@aws-cdk/aws-apigatewayv2-alpha',
+    '@aws-cdk/aws-apigatewayv2-integrations-alpha',
+    '@aws-cdk/aws-apigatewayv2-authorizers-alpha',
+  ],
   devDeps: ['@types/aws-cloudfront-function@1.0.2'],
   tsconfig: {
     include: ['test/**/*.ts'],
@@ -131,6 +140,22 @@ new awscdk.AwsCdkTypeScriptApp({
   },
 });
 
+infraProject.addScripts({
+  'test-ci': 'jest',
+});
+
+new cdk.JsiiProject({
+  parent: project,
+  name: 'get-resume',
+  author: 'Jussi',
+  authorAddress: 'jussi.lem@gmail.com',
+  defaultReleaseBranch: 'main',
+  outdir: 'functions/get-resume',
+  repositoryUrl: 'https://github.com/JussiLem/jussi-resume-v2',
+  packageManager: javascript.NodePackageManager.NPM,
+  sampleCode: false,
+});
+
 const jobDefinition: github.workflows.Job = {
   permissions: {
     deployments: github.workflows.JobPermission.READ,
@@ -148,10 +173,17 @@ const jobDefinition: github.workflows.Job = {
       },
     },
     {
-      name: 'Setup',
+      name: 'Setup Nodejs',
       uses: 'actions/setup-node@v3',
       with: {
         'node-version': '16.x',
+      },
+    },
+    {
+      name: 'Setup Golang',
+      uses: 'actions/setup-go@v4',
+      with: {
+        'go-version-file': 'functions/get-resume/go.mod',
       },
     },
     {
@@ -161,11 +193,22 @@ const jobDefinition: github.workflows.Job = {
     },
   ],
 };
+
+jobDefinition.steps.push({
+  name: 'Build get-resume',
+  run: 'env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o output/main && zip -j output/function.zip output/main',
+  workingDirectory: 'functions/get-resume/cmd',
+});
+
 jobDefinition.steps.push({
   name: 'Build frontend',
   env: {
     CI: 'true',
     DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
+    DEFAULT_REGION: '${{ secrets.CDK_DEFAULT_REGION }}',
+    IDENTITY_POOL_ID: '${{ secrets.IDENTITY_POOL_ID }}',
+    USER_POOL_ID: '${{ secrets.USER_POOL_ID }}',
+    USER_POOL_WEB_CLIENT_ID: '${{ secrets.USER_POOL_WEB_CLIENT_ID }}',
   },
   run: 'npm install && npx projen build && npx projen export',
 });
@@ -187,6 +230,8 @@ jobDefinition.steps.push({
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
     CERTIFICATE_ARN: '${{ secrets.CERTIFICATE_ARN }}',
     DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
+    USER_POOL_ID: '${{ secrets.USER_POOL_ID }}',
+    HOSTED_ZONE_ID: '${{ secrets.HOSTED_ZONE_ID }}',
   },
 });
 
@@ -198,6 +243,8 @@ jobDefinition.steps.push({
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
     CERTIFICATE_ARN: '${{ secrets.CERTIFICATE_ARN }}',
     DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
+    USER_POOL_ID: '${{ secrets.USER_POOL_ID }}',
+    HOSTED_ZONE_ID: '${{ secrets.HOSTED_ZONE_ID }}',
   },
 });
 
@@ -211,6 +258,8 @@ jobDefinition.steps.push({
     CDK_DEFAULT_ACCOUNT: '${{ secrets.CDK_DEFAULT_ACCOUNT }}',
     CERTIFICATE_ARN: '${{ secrets.CERTIFICATE_ARN }}',
     DOMAIN_NAME: '${{ secrets.DOMAIN_NAME }}',
+    USER_POOL_ID: '${{ secrets.USER_POOL_ID }}',
+    HOSTED_ZONE_ID: '${{ secrets.HOSTED_ZONE_ID }}',
   },
 });
 

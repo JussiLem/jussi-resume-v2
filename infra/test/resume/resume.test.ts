@@ -5,6 +5,8 @@ import { Resume } from '../../src/resume';
 test('Snapshot', () => {
   const app = new App();
   const stack = new Resume(app, 'test', {
+    hostedZoneId: 'Z439090ggrjioDIDOSDSS',
+    userPoolId: 'xx-xxxx-1_XXXXXXpXx',
     certificateArn: 'arn:aws:acm:us-east-1:123456789012:certificate/feopoefwpfeopwfeopwfepoojggr-giogrge',
     domainName: 'DomainName',
     env: {

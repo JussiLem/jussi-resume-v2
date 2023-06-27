@@ -191,6 +191,32 @@
         }
       ]
     },
+    "release:backend": {
+      "name": "release:backend",
+      "description": "Prepare a release from \"backend\" branch",
+      "env": {
+        "RELEASE": "true",
+        "MAJOR": "0",
+        "RELEASE_TAG_PREFIX": "test"
+      },
+      "steps": [
+        {
+          "exec": "rm -fr dist"
+        },
+        {
+          "spawn": "bump"
+        },
+        {
+          "spawn": "build"
+        },
+        {
+          "spawn": "unbump"
+        },
+        {
+          "exec": "git diff --ignore-space-at-eol --exit-code"
+        }
+      ]
+    },
     "server": {
       "name": "server",
       "description": "Starts the Next.js application in production mode",

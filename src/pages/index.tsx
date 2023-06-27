@@ -1,3 +1,4 @@
+import { Amplify } from 'aws-amplify';
 import dynamic from 'next/dynamic';
 import { FC, memo } from 'react';
 import Page from '../components/Layout/Page';
@@ -12,11 +13,19 @@ import { homePageMeta } from '../data/data';
 import { ResumeData } from '../data/dataDef';
 import { getResumeData } from '../lib/getResumeData';
 
+Amplify.configure({
+  identityPoolId: process.env.IDENTITY_POOL_ID,
+  region: process.env.DEFAULT_REGION,
+  userPoolId: process.env.USER_POOL_ID,
+  userPoolWebClientId: process.env.USER_POOL_WEB_CLIENT_ID,
+  ssr: true,
+});
 // eslint-disable-next-line react-memo/require-memo
 const Header = dynamic(() => import('../components/Sections/Header'), { ssr: false });
 
 const Home: FC<{
-  resume: ResumeData;
+  resume?: ResumeData;
+  error?: string;
 }> = memo(({ resume }) => {
   const { title, description } = homePageMeta;
   return (
@@ -24,7 +33,16 @@ const Home: FC<{
       <Header />
       <Hero />
       <About />
-      <Resume skills={resume.skills} certs={resume.certs} experience={resume.experience} education={resume.education} />
+      {resume ? (
+        <Resume
+          skills={resume.skills}
+          certs={resume.certs}
+          experience={resume.experience}
+          education={resume.education}
+        />
+      ) : (
+        <></>
+      )}
       {/* <Portfolio />
       <Testimonials /> */}
       <Contact />
@@ -37,12 +55,21 @@ export default Home;
 
 export const getStaticProps: () => Promise<{
   props: {
-    resume: ResumeData;
+    resume?: ResumeData;
+    error?: string;
   };
 }> = async () => {
-  return {
-    props: {
-      resume: await getResumeData(),
-    },
-  };
+  try {
+    return {
+      props: {
+        resume: await getResumeData(),
+      },
+    };
+  } catch (e) {
+    return {
+      props: {
+        error: e.message,
+      },
+    };
+  }
 };
