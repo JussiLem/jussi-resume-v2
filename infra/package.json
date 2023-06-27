@@ -19,7 +19,8 @@
     "test:watch": "npx projen test:watch",
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
-    "projen": "npx projen"
+    "projen": "npx projen",
+    "test-ci": "jest"
   },
   "devDependencies": {
     "@types/aws-cloudfront-function": "1.0.2",

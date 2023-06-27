@@ -107,7 +107,7 @@ project.eslint?.addOverride({
 });
 project.gitignore.addPatterns('.idea/', 'out/', '.env.local', 'functions/get-resume/cmd/output/');
 
-new awscdk.AwsCdkTypeScriptApp({
+const infraProject = new awscdk.AwsCdkTypeScriptApp({
   parent: project,
   cdkVersion: '2.73.0',
   defaultReleaseBranch: 'main',
@@ -138,6 +138,10 @@ new awscdk.AwsCdkTypeScriptApp({
       arrowParens: javascript.ArrowParens.AVOID,
     },
   },
+});
+
+infraProject.addScripts({
+  'test-ci': 'jest',
 });
 
 new cdk.JsiiProject({
