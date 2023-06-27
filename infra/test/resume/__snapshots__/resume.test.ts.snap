@@ -20,6 +20,14 @@ exports[`Snapshot 1`] = `
           "reason": "Save money",
         },
         {
+          "id": "AwsSolutions-APIG1",
+          "reason": "Save money",
+        },
+        {
+          "id": "AwsSolutions-APIG4",
+          "reason": "Remove after testing!",
+        },
+        {
           "id": "AwsSolutions-IAM4",
           "reason": "Change later to own policy",
         },
